@@ -22,10 +22,6 @@ public class TargetWithLife : TargetBase
         public float explosionRadius;
     }
 
-    [SerializeField] float lifeLostPerShot = 0.3f;
-    [SerializeField] float lifeLostPerSwing = 0.4f;
-    [SerializeField] float lifeLostPerExplosion = 20f;
-    [SerializeField] float lifeLostPerParticle = 0.2f;
     [SerializeField] public UnityEvent<TargetWithLife, DeathInfo> onDeath;
     [SerializeField] public UnityEvent<TargetWithLife, float> onLifeLost;
 
@@ -33,24 +29,24 @@ public class TargetWithLife : TargetBase
 
     public float Life = 1f;
 
-    public override void NotifyShot()
+    public override void NotifyShot(float damage)
     {
-        LoseLife(DamageType.Shot, lifeLostPerShot);
+        LoseLife(DamageType.Shot, damage);
     }
 
-    public override void NotifySwing()
+    public override void NotifySwing(float damage)
     {
-        LoseLife(DamageType.Swing, lifeLostPerSwing);
+        LoseLife(DamageType.Swing, damage);
     }
 
-    public override void NotifyExplosion()
+    public override void NotifyExplosion(float damage)
     {
-        LoseLife(DamageType.Explosion, lifeLostPerExplosion);
+        LoseLife(DamageType.Explosion, damage);
     }
 
-    public override void NotifyParticle()
+    public override void NotifyParticle(float damage)
     {
-        LoseLife(DamageType.Particle, lifeLostPerParticle);
+        LoseLife(DamageType.Particle, damage);
     }
 
     protected virtual void LoseLife(DamageType damageType, float howMuch)

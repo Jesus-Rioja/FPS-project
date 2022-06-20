@@ -10,8 +10,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] GameObject WeaponHandler;
 
     [Header("Melee Weapon info")]
-    [SerializeField] WeaponBase meleeWeapon;
-    [SerializeField] GameObject MeleeWeaponVisuals;
+    //[SerializeField] WeaponBase meleeWeapon;
+    //[SerializeField] GameObject MeleeWeaponVisuals;
     [SerializeField] float MeleeAttackCooldown = 5f;
     float MeleeAttackTimer = 0f;
     [SerializeField] int MeleeAttackCharges = 5;
@@ -26,7 +26,7 @@ public class PlayerShooting : MonoBehaviour
     private void Awake()
     {
         anim = GetComponentInChildren<Animator>();
-        MeleeWeaponVisuals.SetActive(false);
+        /*MeleeWeaponVisuals.SetActive(false);*/
         CurrentMeleeAttackCharges = MeleeAttackCharges;
         MeleeAttackTimer = MeleeAttackCooldown;
     }
@@ -67,9 +67,9 @@ public class PlayerShooting : MonoBehaviour
                 MeleeAttackAllowed = false;
                 ShootAllowed = false;
                 CurrentMeleeAttackCharges--;
-                MeleeWeaponVisuals.SetActive(true);
-                WeaponHandler.SetActive(false);
-                anim.SetTrigger("MeleeAttack");
+                //MeleeWeaponVisuals.SetActive(true);
+                //WeaponHandler.SetActive(false);
+                //anim.SetTrigger("MeleeAttack");
                 Invoke("MeleeAttack", 1f);
                 Invoke("ActivateWeaponHandler", 2f);
             }
@@ -97,14 +97,14 @@ public class PlayerShooting : MonoBehaviour
     void MeleeAttack()
     {
         MeleeAttackTimer = MeleeAttackCooldown;
-        meleeWeapon.Swing();
+        currentWeapon.Swing();
     }
 
     void ActivateWeaponHandler()
     {
         ShootAllowed = true;
         MeleeAttackAllowed = true;
-        MeleeWeaponVisuals.SetActive(false);
-        WeaponHandler.SetActive(true);
+        //MeleeWeaponVisuals.SetActive(false);
+        //WeaponHandler.SetActive(true);
     }
 }

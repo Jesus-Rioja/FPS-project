@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponParticles : WeaponBase
 {
     ParticleSystem.EmissionModule[] emissionModule;
+    [SerializeField] public float particleDamage { get; private set; }
 
     private void Awake()
     {

@@ -12,8 +12,14 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
     NavigateToTransform target;
     WeaponMelee meleeWeapon;
 
+    Transform currentTarget = null;
+
+    Sight sight;
+
     enum State
     {
+        Patrol,
+        Idle,
         Seek,
         Attack,
         Die,
@@ -26,6 +32,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
         target = GetComponent<NavigateToTransform>();
         animator = GetComponentInChildren<Animator>();
         meleeWeapon = GetComponent<WeaponMelee>();
+        sight = GetComponent<Sight>();
     }
 
     private void Start()
@@ -35,6 +42,8 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
 
     void Update()
     {
+        currentTarget = sight.targetInSight[0].transform;
+
         switch(state)
         {
             case State.Seek:

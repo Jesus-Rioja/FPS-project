@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class WeaponRaycast : WeaponBase
+public class WeaponRaycast : WeaponMelee
 {
     [Header("Weapon info")]
     //[SerializeField] float damage = 10f;
     [SerializeField] float range = 200f;
     [SerializeField] float fireRate = 5f;
     [SerializeField] protected Transform shootPoint;
+    [SerializeField] float shotDamage = .2f;
     bool isShootingContinuously;
     float timeForNextShot = 0f;
     protected RaycastHit hit;
@@ -82,7 +83,7 @@ public class WeaponRaycast : WeaponBase
 
             TargetBase targetBase = hit.collider.GetComponent<TargetBase>();
 
-            targetBase?.NotifyShot();
+            targetBase?.NotifyShot(shotDamage);
         }
         StartCoroutine(ShootLaser());
     }

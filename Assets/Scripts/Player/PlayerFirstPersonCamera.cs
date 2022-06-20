@@ -6,16 +6,16 @@ public class PlayerFirstPersonCamera : MonoBehaviour
 {
     [SerializeField][Range(0f, 180f)] float maxLookAngle = 60f;
     [SerializeField] float mouseSensitivityY = -0.0001f;
-    float oldMousePositionY;
+    //float oldMousePositionY;
 
     void Awake()
     {
-        oldMousePositionY = Input.mousePosition.y;
+        //oldMousePositionY = Input.mousePosition.y;
     }
 
     void Update()
     {
-        float mouseDelta = Input.mousePosition.y - oldMousePositionY;
+        float mouseDelta = Input.GetAxis("Mouse Y");
         float mouseSpeed = mouseDelta / Time.deltaTime;
 
         Vector3 forwardOnPlane = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
@@ -23,11 +23,11 @@ public class PlayerFirstPersonCamera : MonoBehaviour
         float angleToApply = mouseSensitivityY * mouseSpeed;
 
         if((angle + angleToApply) > maxLookAngle){ angleToApply -= (maxLookAngle - (angle + angleToApply)); }
-        else if((angle + angleToApply) < maxLookAngle) { angleToApply -= (maxLookAngle + (angle + angleToApply)); }
+        else if((angle + angleToApply) < -maxLookAngle) { angleToApply -= (-maxLookAngle - (angle + angleToApply)); }
 
         Quaternion rotationToApply = Quaternion.AngleAxis(mouseSpeed * mouseSensitivityY, Vector3.right);
         transform.localRotation *= rotationToApply;
 
-        oldMousePositionY = Input.mousePosition.y;
+        //oldMousePositionY = Input.mousePosition.y;
     }
 }

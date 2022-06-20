@@ -10,6 +10,7 @@ public class Explosion : MonoBehaviour
     [SerializeField] GameObject prefabVisualExplosion;
     [SerializeField] float radius = 1;
     [SerializeField] AudioClip explosionAudioClip; // CON AUDIOCLIP NO PODEMOS METER EL SONIDO EN EL AUDIOMIXER, MIRAR DE CASMBIRLO CON EVENTS(LISTENER)
+    [SerializeField] float explosionDamage = 5f;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class Explosion : MonoBehaviour
         {
             // COMPROBAR QUE NO HAY PAREDES ENTRE LA EXPLOSION Y EL OBJETIVO
             TargetBase target = c.GetComponent<TargetBase>();
-            target?.NotifyExplosion();
+            target?.NotifyExplosion(explosionDamage);
         }
 
         AudioSource.PlayClipAtPoint(explosionAudioClip, transform.position);
