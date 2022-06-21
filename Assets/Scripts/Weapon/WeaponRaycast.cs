@@ -24,6 +24,7 @@ public class WeaponRaycast : WeaponMelee
     [Header("Weapon projectile direction")]
     [SerializeField] float scatterAngle = 0f;
 
+    NoiseMaker noiseMaker;
 
     private void Awake()
     {
@@ -34,6 +35,8 @@ public class WeaponRaycast : WeaponMelee
 
         lineRenderer.startWidth = laserWidth;
         lineRenderer.endWidth = laserWidth;
+
+        noiseMaker = GetComponentInChildren<NoiseMaker>();
     }
 
     void Update ()
@@ -62,6 +65,7 @@ public class WeaponRaycast : WeaponMelee
     protected void InternalShot()
     {
         audioSource?.Play();
+        noiseMaker?.MakeNoise();
         lineRenderer.SetPosition(0, shootPoint.position);
 
         float horizontalScatterAngle = Random.Range(-scatterAngle, scatterAngle);

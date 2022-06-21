@@ -4,15 +4,24 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavigateToTransform))]
-public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
+[RequireComponent(typeof(NavigateToPosition))]
+//[RequireComponent(typeof(NavigateRoute))]
+public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable, NoiseMaker.INoiseListener
 {
     [SerializeField] float attackDistance = 2f;
+    [SerializeField] float attacksPerSecond = 0.5f;
+    [SerializeField] float timetoForgetNoiseMaker = 1f;
 
     Animator animator;
-    NavigateToTransform target;
     WeaponMelee meleeWeapon;
 
+    NavigateToTransform navigateToTransform;
+    NavigateToPosition navigateToPosition;
+    //NavigateRoute navigateRoute;
+
+
     Transform currentTarget = null;
+    NoiseMaker lastHeardNoiseMaker = null;
 
     Sight sight;
 
@@ -23,13 +32,17 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
         Seek,
         Attack,
         Die,
+        CheckLastPosition,
     }
 
     [SerializeField] State state = State.Seek;
 
     private void Awake()
     {
-        target = GetComponent<NavigateToTransform>();
+        navigateToTransform = GetComponent<NavigateToTransform>();
+        navigateToPosition = GetComponent<NavigateToPosition>();
+        //navigateRoute = GetComponent<NavigateRoute>();
+
         animator = GetComponentInChildren<Animator>();
         meleeWeapon = GetComponent<WeaponMelee>();
         sight = GetComponent<Sight>();
@@ -37,32 +50,86 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
 
     private void Start()
     {
-        target.transformGoTo = PlayerMovement.instance.transform;
+        navigateToTransform.enabled = false;
+        navigateToPosition.enabled = false;
+        //navigateRoute.enabled = false;
     }
+
+    float timeForNextAttack = 0f;
+    float timeLeftToForgetNoiseMaker;
+    Vector3 lastNoticedPosition;
+    float checkPositionThreshold;
 
     void Update()
     {
-        currentTarget = sight.targetInSight[0].transform;
+        timeLeftToForgetNoiseMaker -= Time.deltaTime;
+
+        if(timeLeftToForgetNoiseMaker <= 0f) { lastHeardNoiseMaker = null; }
+
+        currentTarget =
+            sight.targetInSight.Count > 0 ? sight.targetInSight[0].transform :
+            lastHeardNoiseMaker != null ? lastHeardNoiseMaker.transform :
+            null;
+
+        if(currentTarget != null) { lastNoticedPosition = currentTarget.position; }
+        Debug.Log(currentTarget);
 
         switch(state)
         {
+            case State.Idle:
+                if(currentTarget != null)
+                    { state = State.Seek; }
+                break;
+
+            case State.Patrol:
+                if(currentTarget != null)
+                    { state = State.Seek; }
+                break;
+
             case State.Seek:
-                if(IsInAttackRange())
+                if(currentTarget != null)
                 {
-                    state = State.Attack;
-                    target.transformGoTo = null;
+                    //navigateRoute.enabled = true;
+                    state = State.CheckLastPosition;
+                }
+                else
+                {
+                    Seek(currentTarget);
+                    if (IsInAttackRange())
+                    {
+                        state = State.Attack;
+                        timeForNextAttack = 1f / attacksPerSecond;
+                        navigateToTransform.transformGoTo = null;
+                    }
                 }
                 break;
 
             case State.Attack:
                 animator.SetBool("Attacking", true);
-
+                timeForNextAttack -= Time.deltaTime;
+                if(timeForNextAttack < 0f)
+                {
+                    timeForNextAttack += 1f / attacksPerSecond;
+                    meleeWeapon.Swing();
+                }
                 if(!IsInAttackRange())
                 {
                     state = State.Seek;
                     animator.SetBool("Attacking", false);
-                    if(PlayerMovement.instance != null)
-                        target.transformGoTo = PlayerMovement.instance.transform;
+                    Seek(currentTarget);
+                }
+                break;
+
+            case State.CheckLastPosition:
+                Goto(lastNoticedPosition);
+                if(Vector3.Distance(navigateToPosition.position, transform.position) < checkPositionThreshold)
+                {
+                    if(navigateRoute.route != null)
+                    {
+                        Patrol();
+                        state = State.Patrol;
+                    }
+                    else { state = State.Idle; }
                 }
                 break;
 
@@ -70,6 +137,29 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
                 break;
         }
 
+    }
+
+    void GoTo(Vector3 position)
+    {
+        navigateRoute.enabled = false;
+        navigateToTransform.enabled = false;
+        navigateToPosition.enabled = true;
+        navigateToPosition.position = position;
+    }
+
+    void Patrol()
+    {
+        navigateRoute.enabled = true;
+        navigateToTransform.enabled = false;
+        navigateToPosition.enabled = false;
+    }
+
+    void Seek(Transform seekTarget)
+    {
+        navigateRoute.enabled = false;
+        navigateToTransform.enabled = true;
+        navigateToTransform.transformGoTo = seekTarget;
+        navigateToPosition.enabled = false;
     }
 
     bool IsInAttackRange()
@@ -85,6 +175,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
         if(state != State.Die)
         {
             state = State.Die;
+            navigateToTransform.transformGoTo = null;
+
+            Collider collider = GetComponent<Collider>();
+            if(collider) { collider.enabled = false; }
+
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            if (rigidbody) { rigidbody.isKinematic = true; }
 
             animator.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
@@ -93,6 +190,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable
 
             Invoke("Death", 10f);
         }
+    }
+
+    void NoiseMaker.INoiseListener.OnHeard(NoiseMaker noiseMaker)
+    {
+        Debug.Log(noiseMaker);
+        lastHeardNoiseMaker = noiseMaker;
+        timeLeftToForgetNoiseMaker = timetoForgetNoiseMaker;
     }
 
     private void Death()

@@ -16,18 +16,22 @@ public class PlayerFirstPersonCamera : MonoBehaviour
     void Update()
     {
         float mouseDelta = Input.GetAxis("Mouse Y");
-        float mouseSpeed = mouseDelta / Time.deltaTime;
+        if(mouseDelta != 0f)
+        {
+            float mouseSpeed = (mouseDelta / Screen.height) / Time.deltaTime;
 
-        Vector3 forwardOnPlane = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
-        float angle = Vector3.SignedAngle(forwardOnPlane, transform.forward, transform.right);
-        float angleToApply = mouseSensitivityY * mouseSpeed;
+            Vector3 forwardOnPlane = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+            float angle = Vector3.SignedAngle(forwardOnPlane, transform.forward, transform.right);
+            float angleToApply = mouseSensitivityY * mouseSpeed;
 
-        if((angle + angleToApply) > maxLookAngle){ angleToApply -= (maxLookAngle - (angle + angleToApply)); }
-        else if((angle + angleToApply) < -maxLookAngle) { angleToApply -= (-maxLookAngle - (angle + angleToApply)); }
+            if ((angle + angleToApply) > maxLookAngle) { angleToApply += (maxLookAngle - (angle + angleToApply)); }
+            else if ((angle + angleToApply) < -maxLookAngle) { angleToApply += (-maxLookAngle - (angle + angleToApply)); }
 
-        Quaternion rotationToApply = Quaternion.AngleAxis(mouseSpeed * mouseSensitivityY, Vector3.right);
-        transform.localRotation *= rotationToApply;
+            Quaternion rotationToApply = Quaternion.AngleAxis(angleToApply, transform.right);
+            transform.rotation = rotationToApply * transform.rotation;
 
-        //oldMousePositionY = Input.mousePosition.y;
+            //oldMousePositionY = Input.mousePosition.y;
+        }
+
     }
 }

@@ -122,11 +122,11 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
 
     private void UpdateOrientationWithMouse()
     {
-        float mouseDelta = Input.mousePosition.x - oldMousePositionX;
-        float mouseSpeed = mouseDelta / Time.deltaTime;
+        float mouseDelta = Input.GetAxis("Mouse X");
+        float mouseSpeed = (mouseDelta / Screen.width) / Time.deltaTime;
 
         Quaternion rotationToApply = Quaternion.AngleAxis(mouseSpeed * mouseSensitivityX, Vector3.up);
-        transform.rotation *= rotationToApply;
+        transform.rotation = rotationToApply * transform.rotation;
 
         oldMousePositionX = Input.mousePosition.x;
     }
