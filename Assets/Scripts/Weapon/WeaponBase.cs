@@ -9,6 +9,12 @@ public class WeaponBase : MonoBehaviour
     public bool canShootOnce;
     public bool canShootContinuously;
 
+    [SerializeField] float minRange = 1f;
+    [SerializeField] float maxRange = 25f;
+
+    [SerializeField] float minDamage = 1f;
+    [SerializeField] float maxDamage = 0.25f;
+
     public enum WeaponUseType
     {
         Shot,
@@ -47,4 +53,17 @@ public class WeaponBase : MonoBehaviour
     {
 
     }
+
+    protected float CalcDamage(Vector3 hitPosition)
+    {
+        return CalcDamage(Vector3.Distance(transform.position, hitPosition));
+    }
+
+    protected float CalcDamage(float distance)
+    {
+        if(distance < minDamage) { return maxDamage; }
+        if(distance > maxDamage) { return 0f; }
+        return Mathf.Lerp(maxDamage, minDamage, (distance - minRange) / (maxDamage - minRange));
+    }
+
 }

@@ -33,7 +33,7 @@ public class Sight : MonoBehaviour
             //RaycastHit hit;
 
             Collider[] colliders = Physics.OverlapBox(
-                transform.TransformPoint(Vector3.forward * sightDistance / 2),
+                transform.position + (Vector3.forward * sightDistance / 2),
                 new Vector3(sightWidth, sightHeight, sightDistance) / 2f,
                 transform.rotation,
                 visibleLayers,
