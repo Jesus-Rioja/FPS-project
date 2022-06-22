@@ -78,6 +78,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabsToInstantiate:
   - {fileID: 5721357426589871954, guid: 2b83a5fce60d1714ab93bb0b1ca0304c, type: 3}
+  - {fileID: 5448490850941700961, guid: 52dff29da06d30f488896d52efdac12c, type: 3}
+  ExplosionSound:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &4850941154538486301
 CapsuleCollider:
   m_ObjectHideFlags: 0

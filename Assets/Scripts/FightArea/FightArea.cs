@@ -6,11 +6,13 @@ public class FightArea : MonoBehaviour
 {
     [SerializeField] Transform limits;
     Round[] rounds;
+    AudioSource[] limitSounds;
     int currentRound = -1;
-    // Start is called before the first frame update
+
     void Awake()
     {
         rounds = GetComponentsInChildren<Round>();
+        limitSounds = GetComponents<AudioSource>();
     }
 
     private void Start()
@@ -19,7 +21,6 @@ public class FightArea : MonoBehaviour
         limits.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if((currentRound >= 0) && (currentRound < rounds.Length))
@@ -28,8 +29,12 @@ public class FightArea : MonoBehaviour
             {
                 currentRound++;
 
-                if (currentRound < rounds.Length) { rounds[currentRound].ActivateAllEnemies(); }
-                else { limits.gameObject.SetActive(false); }
+                if (currentRound < rounds.Length) { Invoke("ActivateNextRound", 3f); }
+                else
+                {
+                    limitSounds[1].Play();
+                    limits.gameObject.SetActive(false); 
+                }
             }
         }
     }
@@ -42,6 +47,12 @@ public class FightArea : MonoBehaviour
             currentRound = 0;
             rounds[currentRound].ActivateAllEnemies();
             limits.gameObject.SetActive(true);
+            limitSounds[0].Play();
         }
+    }
+
+    private void ActivateNextRound()
+    {
+        rounds[currentRound].ActivateAllEnemies();
     }
 }

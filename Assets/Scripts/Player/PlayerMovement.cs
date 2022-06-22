@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
 
     void Update()
     {
-        if(movementAllowed)
+        if (movementAllowed)
         {
             UpdateMovement();
             UpdateOrientation();
@@ -62,31 +62,31 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
     void UpdateMovement()
     {
         movementFromInput = Vector3.zero;
-        if(Input.GetKey(KeyCode.A)){movementFromInput += Vector3.left;}
-        if(Input.GetKey(KeyCode.W)){movementFromInput += Vector3.forward;}
-        if(Input.GetKey(KeyCode.S)){movementFromInput += Vector3.back;}
-        if(Input.GetKey(KeyCode.D)){movementFromInput += Vector3.right;}
+        if (Input.GetKey(KeyCode.A)) { movementFromInput += Vector3.left; }
+        if (Input.GetKey(KeyCode.W)) { movementFromInput += Vector3.forward; }
+        if (Input.GetKey(KeyCode.S)) { movementFromInput += Vector3.back; }
+        if (Input.GetKey(KeyCode.D)) { movementFromInput += Vector3.right; }
         movementFromInput.Normalize();
 
         movementOnPlane = Camera.main.transform.TransformDirection(movementFromInput);
         movementOnPlane = Vector3.ProjectOnPlane(movementOnPlane, Vector3.up);
         movementOnPlane.Normalize();
 
-        speedY += gravity  * Time.deltaTime;
+        speedY += gravity * Time.deltaTime;
         movementOnPlane.y = speedY;
         characterController.Move(movementOnPlane * moveSpeed * Time.deltaTime);
 
-        if(characterController.isGrounded) { speedY = 0;}   
+        if (characterController.isGrounded) { speedY = 0; }
     }
 
 
     void UpdateOrientation()
     {
-        if(rotateWithMouse)
+        if (rotateWithMouse)
         {
             UpdateOrientationWithMouse();
         }
-        else if(rotateToCamera)
+        else if (rotateToCamera)
         {
             UpdateOrientationToCamera();
         }
@@ -144,11 +144,10 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
 
     void TargetWithLifeThatNotifies.IDeathNotifiable.NotifyDeath()
     {
-        if(!isDead)
+        if (!isDead)
         {
             isDead = true;
             anim.SetTrigger("Death");
-            Debug.Log("Me muero ñoo");
             movementAllowed = false;
             GetComponent<CapsuleCollider>().enabled = false;
 

@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Round : MonoBehaviour
 {
-    Enemy[] enemies;
+    public Enemy[] enemies;
 
-    // Start is called before the first frame update
     void Awake()
     {
-        enemies = GetComponentsInChildren<Enemy>();
+        CheckEnemies();
     }
+
+
 
     internal void DeactivateAllEnemies()
     {
@@ -27,17 +29,25 @@ public class Round : MonoBehaviour
         {
             enemy.gameObject.SetActive(true);
         }
+        //EnemiesLeftEvent.Invoke(enemies.Length);
     }
 
     internal bool AreAllEnemiesDead()
     {
         bool allEnemiesAreDead = true;
 
-        for(int i = 0; allEnemiesAreDead && (i < enemies.Length); i++)
+        for (int i = 0; allEnemiesAreDead && (i < enemies.Length); i++)
         {
-            allEnemiesAreDead = enemies[i] == null;
+            //allEnemiesAreDead = enemies[i].GetComponent<TargetWithLife>().Life <= 0;
+            if(enemies[i] != null && enemies[i].GetComponent<TargetWithLife>().Life > 0) { allEnemiesAreDead = false; }
         }
 
         return allEnemiesAreDead;
     }
+
+    public void CheckEnemies()
+    {
+        enemies = GetComponentsInChildren<Enemy>();
+    }
+
 }

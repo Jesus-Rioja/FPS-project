@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
         {
-            Debug.Log("me quiero ir a pause");
             if (!Canvas.GetComponent<PanelGestor>().onMenu)
             {
                 Canvas.GetComponent<PanelGestor>().PauseButton();;

@@ -25,6 +25,8 @@ public class TargetWithLife : TargetBase
     [SerializeField] public UnityEvent<TargetWithLife, DeathInfo> onDeath;
     [SerializeField] public UnityEvent<TargetWithLife, float> onLifeLost;
 
+    bool Invulnerable = false;
+
     DeathInfo deathInfo = new DeathInfo();
 
     public float Life = 1f;
@@ -36,7 +38,12 @@ public class TargetWithLife : TargetBase
 
     public override void NotifySwing(float damage)
     {
-        LoseLife(DamageType.Swing, damage);
+        if (!Invulnerable)
+        {
+            Invulnerable = true;
+            LoseLife(DamageType.Swing, damage);
+            Invoke("DisableInvulnerability", 0.1f);
+        }
     }
 
     public override void NotifyExplosion(float damage)
@@ -87,5 +94,10 @@ public class TargetWithLife : TargetBase
         {
             onDeath.Invoke(this, deathInfo);
         }
+    }
+
+    void DisableInvulnerability()
+    {
+        Invulnerable = false;
     }
 }

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TargetWithLifeThatNotifies : TargetWithLife
 {
+    AudioSource damageSound;
+
+    private void Awake()
+    {
+        damageSound = GetComponent<AudioSource>();
+    }
+
     public interface IDeathNotifiable
     {
         public void NotifyDeath();
@@ -11,6 +18,8 @@ public class TargetWithLifeThatNotifies : TargetWithLife
 
     protected override void CheckStillAlive()
     {
+        if (damageSound != null/* && !damageSound.isPlaying*/) { damageSound.Play(); }
+
         if (Life <= 0)
         {
             base.CheckStillAlive();

@@ -8,8 +8,8 @@ public class WeaponInstantiate : WeaponBase
     [SerializeField] Transform shootPoint;
     [SerializeField] float forceToApplyOnShot = 300f;
 
-    float rechargeTime = 1f;
-    bool ShotAllowed = true;
+    //float rechargeTime = 1f;
+    //bool ShotAllowed = true;
 
     private void OnEnable()
     {

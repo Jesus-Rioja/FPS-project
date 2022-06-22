@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition.enabled = false;
         navigateRoute.enabled = false;
 
-        if(behaviourType == BehaviourType.Guardian) { GetComponent<NavMeshAgent>().speed = 0f; }
+        if (behaviourType == BehaviourType.Guardian) { GetComponent<NavMeshAgent>().speed = 0f; }
     }
 
     float timeForNextAttack = 0f;
@@ -79,20 +79,20 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
         UpdateCurrentTarget();
 
-        switch(state)
+        switch (state)
         {
             case State.Idle:
-                if(currentTarget != null)
-                    { state = State.Seek; }
+                if (currentTarget != null)
+                { state = State.Seek; }
                 break;
 
             case State.Patrol:
-                if(currentTarget != null)
-                    { state = State.Seek; }
+                if (currentTarget != null)
+                { state = State.Seek; }
                 break;
 
             case State.Seek:
-                if(currentTarget != null)
+                if (currentTarget != null)
                 {
                     navigateRoute.enabled = true;
                     state = State.CheckLastPosition;
@@ -115,9 +115,9 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
             case State.CheckLastPosition:
                 GoTo(lastNoticedPosition);
-                if(Vector3.Distance(navigateToPosition.position, transform.position) < checkPositionThreshold)
+                if (Vector3.Distance(navigateToPosition.position, transform.position) < checkPositionThreshold)
                 {
-                    if(navigateRoute.route != null)
+                    if (navigateRoute.route != null)
                     {
                         Patrol();
                         state = State.Patrol;
@@ -137,10 +137,10 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         //animator.SetBool("Attacking", true);
 
         bool advanceWhileAttacking = behaviourType == BehaviourType.Valiant;
-        if(advanceWhileAttacking)
-            { Seek(currentTarget);  }
+        if (advanceWhileAttacking)
+        { Seek(currentTarget); }
         else
-            { GoTo(transform.position); }
+        { GoTo(transform.position); }
 
         timeForNextAttack -= Time.deltaTime;
         if (timeForNextAttack < 0f)
@@ -217,13 +217,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void TargetWithLifeThatNotifies.IDeathNotifiable.NotifyDeath()
     {
-        if(state != State.Die)
+        if (state != State.Die)
         {
             state = State.Die;
             navigateToTransform.transformGoTo = null;
 
             Collider collider = GetComponent<Collider>();
-            if(collider) { collider.enabled = false; }
+            if (collider) { collider.enabled = false; }
 
             Rigidbody rigidbody = GetComponent<Rigidbody>();
             if (rigidbody) { rigidbody.isKinematic = true; }

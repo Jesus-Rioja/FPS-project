@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,8 +15,8 @@ public abstract class TargetBase : MonoBehaviour
     {
         WeaponParticles weapon = other.GetComponentInParent<WeaponParticles>();
 
-        // DIFERENCIAR POR TAG LAS PARTICULAS DAÑINAS
-        if(weapon)
+        // DIFERENCIAR POR TAG LAS PARTICULAS DAï¿½INAS
+        if (weapon)
             if (tagsOfDamagingTargetEffects.Contains("Fire")) { NotifyParticle(weapon.particleDamage); }
     }
 

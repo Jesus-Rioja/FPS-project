@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponBase : MonoBehaviour
 {
     [SerializeField] protected LayerMask targetLayers = Physics.DefaultRaycastLayers;
+    [SerializeField] public float rechargeTime = 0f;
+
+    public UnityEvent<WeaponBase, float> RechargeTimeEvent;
 
     public bool canShootOnce;
     public bool canShootContinuously;
+    public bool ShotAllowed = true;
 
     [SerializeField] float minRange = 1f;
     [SerializeField] float maxRange = 25f;

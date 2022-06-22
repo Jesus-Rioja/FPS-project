@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public GameObject AudioPanel;
     public GameObject VideoPanel;
     public GameObject SettingsPanel;
+    public GameObject CreditsPanel;
 
     [SerializeField] AudioSource OnClickButtonClip;
     [SerializeField] AudioSource OnHoverButtonClip;
@@ -24,6 +25,7 @@ public class MenuManager : MonoBehaviour
         SettingsPanel.SetActive(panelToBeActivated.Equals(SettingsPanel.name));
         AudioPanel.SetActive(panelToBeActivated.Equals(AudioPanel.name));
         VideoPanel.SetActive(panelToBeActivated.Equals(VideoPanel.name));
+        CreditsPanel.SetActive(panelToBeActivated.Equals(CreditsPanel.name));
     }
 
     #endregion 
@@ -43,5 +45,18 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    
+    public void UnlockAllWeapons()
+    {
+        PlayerPrefs.SetInt("Machine gun", 1);
+        PlayerPrefs.SetInt("Shotgun", 1);
+        PlayerPrefs.SetInt("Grenade launcher", 1);
+        PlayerPrefs.SetInt("Flamethrower", 1);
+    }
+
+    public void DeletePrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+
 }

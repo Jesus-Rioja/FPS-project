@@ -10,8 +10,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] GameObject WeaponHandler;
 
     [Header("Melee Weapon info")]
-    //[SerializeField] WeaponBase meleeWeapon;
-    //[SerializeField] GameObject MeleeWeaponVisuals;
+    [SerializeField] WeaponBase meleeWeapon;
+    [SerializeField] GameObject MeleeWeaponVisuals;
     [SerializeField] float MeleeAttackCooldown = 5f;
     float MeleeAttackTimer = 0f;
     [SerializeField] int MeleeAttackCharges = 5;
@@ -19,14 +19,16 @@ public class PlayerShooting : MonoBehaviour
 
     Animator anim;
     bool ShootAllowed = true;
+    bool Swinging = false;
     bool MeleeAttackAllowed = true;
+    GameObject currentWeaponVisuals;
 
 
 
     private void Awake()
     {
         anim = GetComponentInChildren<Animator>();
-        /*MeleeWeaponVisuals.SetActive(false);*/
+        MeleeWeaponVisuals.SetActive(false);
         CurrentMeleeAttackCharges = MeleeAttackCharges;
         MeleeAttackTimer = MeleeAttackCooldown;
     }
@@ -37,18 +39,20 @@ public class PlayerShooting : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if(ShootAllowed)
+                if(ShootAllowed && !Swinging)
                 {
                     currentWeapon.Shot();
                     currentWeapon.EnableAnim();
                 }
+                else
+                    Debug.Log("quiero disparar");
             }
         }
         else if(currentWeapon.canShootContinuously)
         {
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if(ShootAllowed)
+                if(ShootAllowed && !Swinging)
                 {
                     currentWeapon.StartShooting();
                     currentWeapon.EnableAnim();
@@ -65,11 +69,12 @@ public class PlayerShooting : MonoBehaviour
             if(MeleeAttackAllowed && CurrentMeleeAttackCharges > 0)
             {
                 MeleeAttackAllowed = false;
-                ShootAllowed = false;
+                Swinging = true;
                 CurrentMeleeAttackCharges--;
-                //MeleeWeaponVisuals.SetActive(true);
-                //WeaponHandler.SetActive(false);
-                //anim.SetTrigger("MeleeAttack");
+                MeleeWeaponVisuals.SetActive(true);
+                currentWeaponVisuals = currentWeapon.gameObject.GetComponentInChildren<Visuals>().gameObject;
+                currentWeaponVisuals.SetActive(false);
+                anim.SetTrigger("MeleeAttack");
                 Invoke("MeleeAttack", 1f);
                 Invoke("ActivateWeaponHandler", 2f);
             }
@@ -97,14 +102,16 @@ public class PlayerShooting : MonoBehaviour
     void MeleeAttack()
     {
         MeleeAttackTimer = MeleeAttackCooldown;
-        currentWeapon.Swing();
+        meleeWeapon.Swing();
     }
 
     void ActivateWeaponHandler()
     {
-        ShootAllowed = true;
+        Swinging = false;
+
+        currentWeaponVisuals.SetActive(true);
         MeleeAttackAllowed = true;
-        //MeleeWeaponVisuals.SetActive(false);
+        MeleeWeaponVisuals.SetActive(false);
         //WeaponHandler.SetActive(true);
     }
 }
