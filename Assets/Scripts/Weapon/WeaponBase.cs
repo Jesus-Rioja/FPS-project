@@ -20,8 +20,10 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] float minDamage = 1f;
     [SerializeField] float maxDamage = 0.25f;
 
+
     public enum WeaponUseType
     {
+        Swing,
         Shot,
         ContinuousShot,
         Undefined,
@@ -68,7 +70,60 @@ public class WeaponBase : MonoBehaviour
     {
         if(distance < minDamage) { return maxDamage; }
         if(distance > maxDamage) { return 0f; }
-        return Mathf.Lerp(maxDamage, minDamage, (distance - minRange) / (maxDamage - minRange));
+
+        float finalDamage = Mathf.Lerp(maxDamage, minDamage, (distance - minRange) / (maxDamage - minRange));
+
+        return finalDamage;
+    }
+
+    public float GetMaxRange() { return maxRange; }
+    public float GetMinRange() { return minRange; }
+
+    [Header("Ammo and Magazines, reload")]
+    [SerializeField] int maxAmmo = 100;
+    [SerializeField] int currentAmmo = 24;
+    [SerializeField] int ammoInCurrentMagazine = 12; //AÑADIR EN START QUE NO PUEDA SER MAYOR A 12
+    [SerializeField] int magazineCapacity = 12;
+    [SerializeField] float reloadTime = 5f;
+    [SerializeField] bool consumesAmmo = true;
+    protected bool isReloading;
+
+    protected enum UseAmmoResult
+    {
+        ShotMade,
+        NeedsReload,
+        NoAmmo,
+    };
+
+    protected UseAmmoResult UseAmmo()
+    {
+        if(currentAmmo == 0) return UseAmmoResult.NoAmmo;
+        if(ammoInCurrentMagazine == 0) return UseAmmoResult.NeedsReload;
+
+        if(consumesAmmo)
+            currentAmmo--;
+
+        ammoInCurrentMagazine--;
+        return UseAmmoResult.ShotMade;
+    }
+
+    public bool HasAmmo() { return currentAmmo > 0; }
+    public bool NeedsReload() { return HasAmmo() && (ammoInCurrentMagazine == 0); }
+    public void Reload()
+    {
+        if(!isReloading)
+        {
+            Debug.Log("Empiezo a recargar");
+            isReloading = true;
+            Invoke(nameof(ReloadAfterSeconds), reloadTime); 
+        }
+    }
+
+    void ReloadAfterSeconds()
+    {
+        Debug.Log("Acabo de recargar");
+        isReloading = false;
+        ammoInCurrentMagazine = Mathf.Min(magazineCapacity, currentAmmo);
     }
 
 }

@@ -63,7 +63,7 @@ public class WeaponRaycast : WeaponMelee
 
     protected void InternalShot()
     {        
-        if (timeForNextShot <= 0f)
+        if (!isReloading && timeForNextShot <= 0f)
         {
             timeForNextShot += 1f / shotCadence;
 
@@ -71,31 +71,35 @@ public class WeaponRaycast : WeaponMelee
             noiseMaker?.MakeNoise();
             lineRenderer.SetPosition(0, shootPoint.position);
 
-            for(int i = 0; i < projectilesPerShot; i++)
+            if (UseAmmo() == UseAmmoResult.ShotMade)  
             {
-                float horizontalScatterAngle = Random.Range(-scatterAngle, scatterAngle);
-                Quaternion horizontalScatter = Quaternion.AngleAxis(horizontalScatterAngle, transform.up);
-
-                float verticalScatterAngle = Random.Range(-scatterAngle, scatterAngle);
-                Quaternion verticalScatter = Quaternion.AngleAxis(verticalScatterAngle, transform.up);
-
-                Vector3 shotForward = verticalScatter * (horizontalScatter * shootPoint.forward);
-
-                Ray ray = new Ray(shootPoint.position, shotForward);
-
-                if (Physics.Raycast(ray, out hit, range, targetLayers, QueryTriggerInteraction.Ignore))
+                for (int i = 0; i < projectilesPerShot; i++)
                 {
-                    lineRenderer.SetPosition(1, hit.point);
 
-                    Debug.DrawLine(shootPoint.position, hit.point, Color.cyan, 10f);
-                    Debug.DrawRay(hit.point, hit.normal, Color.red, 10f);
+                    float horizontalScatterAngle = Random.Range(-scatterAngle, scatterAngle);
+                    Quaternion horizontalScatter = Quaternion.AngleAxis(horizontalScatterAngle, transform.up);
 
-                    TargetBase targetBase = hit.collider.GetComponent<TargetBase>();
+                    float verticalScatterAngle = Random.Range(-scatterAngle, scatterAngle);
+                    Quaternion verticalScatter = Quaternion.AngleAxis(verticalScatterAngle, transform.up);
 
-                    targetBase?.NotifyShot(CalcDamage(targetBase.transform.position));
+                    Vector3 shotForward = verticalScatter * (horizontalScatter * shootPoint.forward);
+
+                    Ray ray = new Ray(shootPoint.position, shotForward);
+
+                    if (Physics.Raycast(ray, out hit, range, targetLayers, QueryTriggerInteraction.Ignore))
+                    {
+                        lineRenderer.SetPosition(1, hit.point);
+
+                        Debug.DrawLine(shootPoint.position, hit.point, Color.cyan, 10f);
+                        Debug.DrawRay(hit.point, hit.normal, Color.red, 10f);
+
+                        TargetBase targetBase = hit.collider.GetComponent<TargetBase>();
+
+                        targetBase?.NotifyShot(CalcDamage(targetBase.transform.position));
+                    }
+
+                    StartCoroutine(ShootLaser());
                 }
-
-                StartCoroutine(ShootLaser());
             }
         }
     }

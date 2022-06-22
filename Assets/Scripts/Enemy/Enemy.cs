@@ -8,7 +8,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavigateRoute))]
 public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable, NoiseMaker.INoiseListener
 {
-    [SerializeField] float attackDistance = 2f;
     [SerializeField] float attacksPerSecond = 0.5f;
     [SerializeField] float timetoForgetNoiseMaker = 1f;
 
@@ -114,15 +113,22 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 break;
 
             case State.CheckLastPosition:
-                GoTo(lastNoticedPosition);
-                if (Vector3.Distance(navigateToPosition.position, transform.position) < checkPositionThreshold)
+                if (currentTarget != null)
                 {
-                    if (navigateRoute.route != null)
+                    state = State.Seek;
+                }
+                else
+                {
+                    GoTo(lastNoticedPosition);
+                    if (Vector3.Distance(navigateToPosition.position, transform.position) < checkPositionThreshold)
                     {
-                        Patrol();
-                        state = State.Patrol;
+                        if (navigateRoute.route != null)
+                        {
+                            Patrol();
+                            state = State.Patrol;
+                        }
+                        else { state = State.Idle; }
                     }
-                    else { state = State.Idle; }
                 }
                 break;
 
@@ -132,27 +138,57 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     }
 
+    bool currentSideStepDirection = false;
+    bool oldIsInMinRange = false;
+
     void UpdateAttack()
     {
-        //animator.SetBool("Attacking", true);
-
-        bool advanceWhileAttacking = behaviourType == BehaviourType.Valiant;
-        if (advanceWhileAttacking)
-        { Seek(currentTarget); }
-        else
-        { GoTo(transform.position); }
-
-        timeForNextAttack -= Time.deltaTime;
-        if (timeForNextAttack < 0f)
+        if (currentTarget == null)
         {
-            timeForNextAttack += 1f / attacksPerSecond; //CADENCIA DE DISPARO
-            currentWeapon.Shot();
+            state = State.CheckLastPosition;
         }
-        if (!IsInAttackRange())
+        else
         {
-            state = State.Seek;
-            //animator.SetBool("Attacking", false);
-            Seek(currentTarget);
+            //animator.SetBool("Attacking", true);
+
+            bool advanceWhileAttacking = behaviourType == BehaviourType.Valiant;
+            bool isInMinRange = Vector3.Distance(currentTarget.position, transform.position) < currentWeapon.GetMinRange();
+
+            if (advanceWhileAttacking)
+            { 
+                if(!isInMinRange)
+                {
+                    Seek(currentTarget);
+                }
+                else
+                {
+                    if(oldIsInMinRange != isInMinRange)
+                        { currentSideStepDirection = Random.Range(0f, 100f) < 50f; }
+                    SideStep(currentSideStepDirection);
+                }
+            }
+            else
+                { GoTo(transform.position); }
+
+            LookAt(currentTarget);
+
+            // TODO: chequear el tipo de arma, y
+            // utilizar las llamadas correctas
+            // para disparar
+
+            currentWeapon.Shot();
+
+            if(currentWeapon.NeedsReload())
+                { currentWeapon.Reload(); }
+
+            if (!IsInAttackRange())
+            {
+                state = State.Seek;
+                //animator.SetBool("Attacking", false);
+                Seek(currentTarget);
+            }
+
+            oldIsInMinRange = isInMinRange;
         }
     }
 
@@ -179,6 +215,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         locateFirstTarget |= currentTarget != null;
 
         if (currentTarget != null) { lastNoticedPosition = currentTarget.position; }
+
         Debug.Log(currentTarget);
     }
 
@@ -205,10 +242,24 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition.enabled = false;
     }
 
+    void LookAt(Transform lookTarget)
+    {
+        Vector3 positionOnSameHigh = lookTarget.position;
+        positionOnSameHigh.y = transform.position.y;
+
+        transform.LookAt(positionOnSameHigh);
+    }
+
+    void SideStep(bool toRight)
+    {
+        Vector3 destination = transform.position + (toRight ? Vector3.right : -Vector3.right);
+        GoTo(destination);   
+    }
+
     bool IsInAttackRange()
     {
         if (PlayerMovement.instance != null)
-            return Vector3.Distance(transform.position, PlayerMovement.instance.transform.position) < attackDistance;
+            return Vector3.Distance(transform.position, PlayerMovement.instance.transform.position) < currentWeapon.GetMaxRange();
         else
             return false;
     }

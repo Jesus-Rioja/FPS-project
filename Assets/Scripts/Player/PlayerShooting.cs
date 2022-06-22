@@ -64,6 +64,11 @@ public class PlayerShooting : MonoBehaviour
             }
         } 
 
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            currentWeapon.Reload();
+        }
+
         if(Input.GetKeyDown(KeyCode.Mouse1))
         {
             if(MeleeAttackAllowed && CurrentMeleeAttackCharges > 0)
