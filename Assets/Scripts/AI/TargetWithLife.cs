@@ -30,6 +30,7 @@ public class TargetWithLife : TargetBase
     DeathInfo deathInfo = new DeathInfo();
 
     public float Life = 1f;
+    [SerializeField] float medikitLifeRecovey = 10f;
 
     public override void NotifyShot(float damage)
     {
@@ -99,5 +100,16 @@ public class TargetWithLife : TargetBase
     void DisableInvulnerability()
     {
         Invulnerable = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("MediKit"))
+        {
+            //TODO: disallow recovery more
+            //  life than original life max value
+            Life += medikitLifeRecovey;
+            Destroy(other.gameObject);
+        }
     }
 }

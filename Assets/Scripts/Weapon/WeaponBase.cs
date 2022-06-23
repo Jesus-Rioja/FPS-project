@@ -20,6 +20,8 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] float minDamage = 1f;
     [SerializeField] float maxDamage = 0.25f;
 
+    protected bool isUsable = true;
+
 
     public enum WeaponUseType
     {
@@ -107,13 +109,20 @@ public class WeaponBase : MonoBehaviour
         return UseAmmoResult.ShotMade;
     }
 
+    internal void AddAmmo()
+    {
+        currentAmmo += magazineCapacity;
+    }
+
     public bool HasAmmo() { return currentAmmo > 0; }
     public bool NeedsReload() { return HasAmmo() && (ammoInCurrentMagazine == 0); }
+
     public void Reload()
     {
-        if(!isReloading)
+        if(isUsable)
         {
             Debug.Log("Empiezo a recargar");
+            isUsable = false;
             isReloading = true;
             Invoke(nameof(ReloadAfterSeconds), reloadTime); 
         }
@@ -122,6 +131,7 @@ public class WeaponBase : MonoBehaviour
     void ReloadAfterSeconds()
     {
         Debug.Log("Acabo de recargar");
+        isUsable = true;
         isReloading = false;
         ammoInCurrentMagazine = Mathf.Min(magazineCapacity, currentAmmo);
     }

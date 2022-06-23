@@ -7,8 +7,8 @@ public class WeaponRaycastMultiShot : WeaponRaycast
 {
     [SerializeField] int numShots;
 
-    bool ShotAllowed = true;
-    float rechargeTime = 1f;
+    //bool ShotAllowed = true;
+    //float rechargeTime = 1f;
     int index = 0;
 
     private void OnEnable()

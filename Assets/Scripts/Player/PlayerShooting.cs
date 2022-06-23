@@ -119,4 +119,13 @@ public class PlayerShooting : MonoBehaviour
         MeleeWeaponVisuals.SetActive(false);
         //WeaponHandler.SetActive(true);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ammo"))
+        {
+            currentWeapon.AddAmmo();
+            Destroy(other.gameObject);
+        }
+    }
 }

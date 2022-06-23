@@ -12,6 +12,6 @@ public class OnEnableVideoManager : MonoBehaviour
     {
         dropQuality.value = PlayerPrefs.GetInt("Quality", 2);
         dropScreen.value = PlayerPrefs.GetInt("Screen", 1);
-        dropResolution.value = PlayerPrefs.GetInt("Resolution", 3);
+        dropResolution.value = PlayerPrefs.GetInt("Resolution", 0);
     }
 }

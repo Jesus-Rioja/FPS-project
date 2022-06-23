@@ -19,6 +19,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     NavigateToPosition navigateToPosition;
     NavigateRoute navigateRoute;
 
+    [Header("Cover parameters")]
+    [SerializeField] float fearDistance = 15f;
+    [SerializeField] float coverSearchRadius = 20f;
+    [SerializeField] LayerMask coverSearchLayerMask; //= 1 << LayerMask.NameToLayer("CoverPoints"); LAYER SON UNA CADENA DE 32 BITS, CADA BIT  A1 REPRESENTA UN LAYER, CON ETSA OPERACION DESPLAZAMOS UN 1 30 VECES A LA IZQ (30 = LAYER COVERPOINTS)
+    [SerializeField] LayerMask occludingLayerMask = Physics.DefaultRaycastLayers;
 
     Transform currentTarget = null;
     NoiseMaker lastHeardNoiseMaker = null;
@@ -30,6 +35,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         Patrol,
         Idle,
         Seek,
+        TakeCover,
         Attack,
         Die,
         CheckLastPosition,
@@ -41,10 +47,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         Valiant,
         Sneaky,
         Guardian,
-    };
-    [SerializeField] BehaviourType behaviourType = BehaviourType.Valiant;
+    }
 
+    [SerializeField] BehaviourType behaviourType = BehaviourType.Valiant;
     [SerializeField] State state = State.Seek;
+    [SerializeField] float checkPositionThreshold = 1.5f;
 
     private void Awake()
     {
@@ -63,13 +70,21 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition.enabled = false;
         navigateRoute.enabled = false;
 
-        if (behaviourType == BehaviourType.Guardian) { GetComponent<NavMeshAgent>().speed = 0f; }
+        state = State.Idle;
+        if (behaviourType == BehaviourType.Guardian) 
+        { 
+            GetComponent<NavMeshAgent>().speed = 0f; 
+
+        }
+        else if(navigateRoute.route != null)
+        {
+            state = State.Patrol;
+        }
     }
 
     float timeForNextAttack = 0f;
     float timeLeftToForgetNoiseMaker;
     Vector3 lastNoticedPosition;
-    float checkPositionThreshold;
     bool locateFirstTarget = false;
 
     void Update()
@@ -82,10 +97,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         {
             case State.Idle:
                 if (currentTarget != null)
-                { state = State.Seek; }
+                    { state = State.Seek; }
+                else 
+                    { GoTo(transform.position); }
                 break;
 
             case State.Patrol:
+                Patrol();
                 if (currentTarget != null)
                 { state = State.Seek; }
                 break;
@@ -98,7 +116,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 }
                 else
                 {
-                    Seek(currentTarget);
+                    GoTo(currentTarget);
                     if (IsInAttackRange())
                     {
                         state = State.Attack;
@@ -108,8 +126,12 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 }
                 break;
 
-            case State.Attack:
+            case State.Attack: //opcional ataque hacia arriba/abajo de los enemigos
                 UpdateAttack();
+                break;
+
+            case State.TakeCover:
+                UpdateTakeCover();
                 break;
 
             case State.CheckLastPosition:
@@ -158,7 +180,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             { 
                 if(!isInMinRange)
                 {
-                    Seek(currentTarget);
+                    GoTo(currentTarget);
                 }
                 else
                 {
@@ -167,9 +189,19 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                     SideStep(currentSideStepDirection);
                 }
             }
+            else if ((Vector3.Distance(currentTarget.position, transform.position) < fearDistance) && (behaviourType == BehaviourType.Cautious))
+            {
+                selectedCover = FindBestCover();
+                if (selectedCover)
+                    state = State.TakeCover;
+                else
+                    GoTo(transform.position);
+            }
             else
                 { GoTo(transform.position); }
 
+
+            //Aiming / Shooting
             LookAt(currentTarget);
 
             // TODO: chequear el tipo de arma, y
@@ -185,10 +217,40 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             {
                 state = State.Seek;
                 //animator.SetBool("Attacking", false);
-                Seek(currentTarget);
+                GoTo(currentTarget);
             }
 
             oldIsInMinRange = isInMinRange;
+        }
+    }
+
+    Transform selectedCover;
+    float timeCovering;
+    [SerializeField] float thresholdCover = 1f;
+
+    void UpdateTakeCover()  //OPCIONAL CURRARSELO MAS
+    {
+        if (Vector3.Distance(selectedCover.position, transform.position) > thresholdCover)
+        { 
+            //Yendo a cubrirse
+            GoTo(selectedCover); 
+        }
+        else
+        {
+            //Estamos a cubierto
+            if (currentTarget != null)
+            {
+                selectedCover = FindBestCover();
+                if(!selectedCover)
+                    { state = State.Attack; }
+            }
+            else
+            {
+                timeCovering -= Time.deltaTime;
+                if (timeCovering < 0f)
+                { state = State.CheckLastPosition; }
+            }
+
         }
     }
 
@@ -234,11 +296,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition.enabled = false;
     }
 
-    void Seek(Transform seekTarget)
+    void GoTo(Transform targetTransform)
     {
         navigateRoute.enabled = false;
         navigateToTransform.enabled = true;
-        navigateToTransform.transformGoTo = seekTarget;
+        navigateToTransform.transformGoTo = targetTransform;
         navigateToPosition.enabled = false;
     }
 
@@ -262,6 +324,26 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             return Vector3.Distance(transform.position, PlayerMovement.instance.transform.position) < currentWeapon.GetMaxRange();
         else
             return false;
+    }
+
+    Transform FindBestCover()
+    {
+        Collider[] potentialCovers = Physics.OverlapSphere(transform.position, coverSearchRadius, coverSearchLayerMask, QueryTriggerInteraction.Ignore);
+
+        //TODO: discard covers that are closer to
+        //      the current target than this entity
+        //TODO: sort potential covers
+        foreach (Collider c in potentialCovers)
+        {
+            RaycastHit hit;
+            Vector3 direction = c.transform.position - currentTarget.position;
+            if (Physics.Raycast(currentTarget.position, direction, out hit, direction.magnitude, occludingLayerMask, QueryTriggerInteraction.Ignore))
+            {
+                return c.transform;
+            }
+        }
+
+        return null;
     }
 
 

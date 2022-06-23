@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponMelee : WeaponBase
 {
+    [SerializeField] Transform meleePoint;
     [SerializeField] float forwardRange = 1f;
     [SerializeField] float horizontalRange = 1f;
     [SerializeField] float verticalRange = 1f;
@@ -11,25 +12,21 @@ public class WeaponMelee : WeaponBase
     [SerializeField] float meleeDamage = 0.25f;
     [SerializeField] float meleeCadence = 1f;
 
-    float timeSinceLastSwing = Mathf.Infinity;
-
     private void Start()
     {
-        timeSinceLastSwing = (1f / meleeCadence);
+        meleePoint = meleePoint ? meleePoint : transform; //Si meleePoint existe, nos quedamos con el. si no existe, cogemos nuestro transform
     }
 
-    public override void Swing()
+    public override void Swing() //HA DICHO ENRIQUE QUE ESTA MAL ESTA FUNCION
     {
-        float timeBetweenSwings = (1f / meleeCadence);
-
-        timeSinceLastSwing += Time.deltaTime;
-        if(timeSinceLastSwing > (1f / meleeCadence))
+        if (isUsable)
         {
-            timeSinceLastSwing -= timeBetweenSwings;
+            isUsable = false;
+            Invoke(nameof(SwingEnd), (1f / meleeCadence));
 
             Vector3 halfExtents = new Vector3(horizontalRange / 2f, verticalRange / 2f, forwardRange / 2f);
 
-            Collider[] colliders = Physics.OverlapBox(transform.position, halfExtents, transform.rotation, targetLayers);
+            Collider[] colliders = Physics.OverlapBox(meleePoint.position, halfExtents, meleePoint.rotation, targetLayers);
 
             foreach (Collider c in colliders)
             {
@@ -37,5 +34,10 @@ public class WeaponMelee : WeaponBase
                 targetBase?.NotifySwing(meleeDamage);
             }
         }
+    }
+
+    void SwingEnd()
+    {
+        isUsable = true;
     }
 }
