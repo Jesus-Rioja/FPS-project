@@ -16,9 +16,6 @@ public class WeaponRaycast : WeaponMelee
     float timeForNextShot = 0f;
     protected RaycastHit hit;
 
-    //VISUALS AND AUDIO
-    protected LineRenderer lineRenderer;
-    [SerializeField] float laserWidth = 0.1f;
 
     AudioSource audioSource;
 
@@ -30,12 +27,6 @@ public class WeaponRaycast : WeaponMelee
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.SetPositions(new Vector3[2] { shootPoint.position, shootPoint.position });
-
-        lineRenderer.startWidth = laserWidth;
-        lineRenderer.endWidth = laserWidth;
 
         noiseMaker = GetComponentInChildren<NoiseMaker>();
     }
@@ -69,7 +60,6 @@ public class WeaponRaycast : WeaponMelee
 
             audioSource?.Play();
             noiseMaker?.MakeNoise();
-            lineRenderer.SetPosition(0, shootPoint.position);
 
             if (UseAmmo() == UseAmmoResult.ShotMade)  
             {
@@ -88,8 +78,6 @@ public class WeaponRaycast : WeaponMelee
 
                     if (Physics.Raycast(ray, out hit, range, targetLayers, QueryTriggerInteraction.Ignore))
                     {
-                        lineRenderer.SetPosition(1, hit.point);
-
                         Debug.DrawLine(shootPoint.position, hit.point, Color.cyan, 10f);
                         Debug.DrawRay(hit.point, hit.normal, Color.red, 10f);
 
@@ -98,7 +86,6 @@ public class WeaponRaycast : WeaponMelee
                         targetBase?.NotifyShot(CalcDamage(targetBase.transform.position));
                     }
 
-                    StartCoroutine(ShootLaser());
                 }
             }
         }
@@ -114,10 +101,4 @@ public class WeaponRaycast : WeaponMelee
         isShootingContinuously = false;
     }
 
-    IEnumerator ShootLaser()
-    {
-        lineRenderer.enabled = true;
-        yield return new WaitForSeconds(0.05f);
-        lineRenderer.enabled = false;
-    }
 }

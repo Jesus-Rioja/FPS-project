@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateRoute = GetComponent<NavigateRoute>();
 
         animator = GetComponentInChildren<Animator>();
-        currentWeapon = GetComponent<WeaponBase>();
+        currentWeapon = GetComponentInChildren<WeaponBase>();
         sight = GetComponent<Sight>();
     }
 
@@ -103,15 +103,16 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 break;
 
             case State.Patrol:
-                Patrol();
                 if (currentTarget != null)
-                { state = State.Seek; }
+                    { state = State.Seek; }
+                else
+                    { Patrol(); }
                 break;
 
             case State.Seek:
-                if (currentTarget != null)
+                if (currentTarget == null)
                 {
-                    navigateRoute.enabled = true;
+                    navigateRoute.enabled = false;
                     state = State.CheckLastPosition;
                 }
                 else
@@ -264,8 +265,8 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     void UpdateCurrentTarget()
     {
         currentTarget = null;
-        if (sight.targetInSight.Count > 0)
-        { currentTarget = sight.targetInSight[0].transform; }
+        if (sight.collidersInSight.Count > 0)
+        { currentTarget = sight.collidersInSight[0].transform; }
         else
         {
             if ((behaviourType != BehaviourType.Sneaky) || locateFirstTarget)

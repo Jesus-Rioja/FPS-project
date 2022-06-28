@@ -5,54 +5,36 @@ using System.Linq;
 
 public class Sight : MonoBehaviour
 {
-    [Header("Measures")]
-    [SerializeField] float sightDistance = 20f;
+    [SerializeField] float sightDistance = 10f;
     [SerializeField] float sightWidth = 10f;
     [SerializeField] float sightHeight = 5f;
+    [SerializeField] LayerMask targetLayerMask = Physics.DefaultRaycastLayers;
+    [SerializeField] LayerMask occludingLayerMask = Physics.DefaultRaycastLayers;
+    [SerializeField] string[] targetTags = { "Player" };
 
-    [Header("Target discrimination")]
-    [SerializeField] LayerMask visibleLayers = Physics.DefaultRaycastLayers;
-    [SerializeField] LayerMask occludingLayers = Physics.DefaultRaycastLayers;
-    [SerializeField] string[] interestingTags = { "Player" };
-
-    [Header("Update Parameters")]
-    [SerializeField] float updateFrequency = 5f;
-
-    [Header("Targets acquired")]
-    public List<Collider> targetInSight = new List<Collider>();
-
-    float timeToUpdate = 0f;
+    public List<Collider> collidersInSight;
 
     void Update()
     {
-        timeToUpdate -= Time.deltaTime;
-
-        if(timeToUpdate <= 0f)
-        {
-            timeToUpdate += 1f / updateFrequency;
-            //RaycastHit hit;
-
-            Collider[] colliders = Physics.OverlapBox(
-                transform.position + (Vector3.forward * sightDistance / 2),
-                new Vector3(sightWidth, sightHeight, sightDistance) / 2f,
+        // Posible mejora: hacer esta comprobación
+        // cada cierto tiempo
+        Collider[] collidersInBox =
+            Physics.OverlapBox(
+                transform.position + (transform.forward * sightDistance / 2f),
+                new Vector3(sightWidth / 2f, sightHeight / 2f, sightDistance / 2f),
                 transform.rotation,
-                visibleLayers,
+                targetLayerMask,
                 QueryTriggerInteraction.Ignore);
 
-            targetInSight.Clear();
+        collidersInSight.Clear();
 
-            for(int i = 0; i < colliders.Length; i++)
+        foreach (Collider c in collidersInBox)
+        {
+            if (targetTags.Contains(c.tag))
             {
-                if(interestingTags.Contains(colliders[i].tag))
-                {
-                    Vector3 direction = colliders[i].transform.position - transform.position;
-                    if (!Physics.Raycast(transform.position, direction, /*out hit,*/ direction.magnitude, occludingLayers, QueryTriggerInteraction.Ignore))
-                    {
-                        targetInSight.Add(colliders[i]);
-                        /*if(hit.transform == colliders[i].transform)
-                        { targetInSight.Add(colliders[i]); }*/
-                    }
-                }
+                Vector3 direction = c.transform.position - transform.position;
+                if (!Physics.Raycast(transform.position, direction, direction.magnitude, occludingLayerMask, QueryTriggerInteraction.Ignore))
+                { collidersInSight.Add(c); }
             }
         }
     }

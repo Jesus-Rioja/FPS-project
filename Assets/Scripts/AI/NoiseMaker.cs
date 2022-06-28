@@ -10,8 +10,7 @@ public class NoiseMaker : MonoBehaviour
 
     [SerializeField] float frecuency = 5f;
 
-    public interface INoiseListener
-    {   void OnHeard(NoiseMaker noiseMaker); }
+    public interface INoiseListener { void OnHeard(NoiseMaker noiseMaker); }
 
     private void Start()
     {
@@ -27,8 +26,6 @@ public class NoiseMaker : MonoBehaviour
     float timeSinceLastNoise;
     private void Update()
     {
-        
-
         if (!silent)
         {
             timeSinceLastNoise += Time.deltaTime;
@@ -37,17 +34,12 @@ public class NoiseMaker : MonoBehaviour
             {
                 timeSinceLastNoise -= (1f / frecuency);
 
-
-
-                if (!onlyWhenMoving && (oldPosition != transform.position))
-                {
-                    InternalMakeNoise();
-                }
+                if (!onlyWhenMoving || (oldPosition != transform.position))
+                { InternalMakeNoise(); }
 
                 oldPosition = transform.position;
             }
         }
-      
     }
 
     void InternalMakeNoise()
