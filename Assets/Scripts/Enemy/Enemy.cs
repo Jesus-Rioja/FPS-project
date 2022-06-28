@@ -11,8 +11,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     [SerializeField] float attacksPerSecond = 0.5f;
     [SerializeField] float timetoForgetNoiseMaker = 1f;
 
-    Animator animator;
-
     WeaponBase currentWeapon;
 
     NavigateToTransform navigateToTransform;
@@ -59,7 +57,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition = GetComponent<NavigateToPosition>();
         navigateRoute = GetComponent<NavigateRoute>();
 
-        animator = GetComponentInChildren<Animator>();
         currentWeapon = GetComponentInChildren<WeaponBase>();
         sight = GetComponent<Sight>();
     }
@@ -278,8 +275,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         locateFirstTarget |= currentTarget != null;
 
         if (currentTarget != null) { lastNoticedPosition = currentTarget.position; }
-
-        Debug.Log(currentTarget);
     }
 
     void GoTo(Vector3 position)
@@ -355,6 +350,8 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         {
             state = State.Die;
             navigateToTransform.transformGoTo = null;
+            navigateToPosition.position = transform.position;
+            navigateRoute.route = null;
 
             Collider collider = GetComponent<Collider>();
             if (collider) { collider.enabled = false; }
@@ -362,7 +359,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             Rigidbody rigidbody = GetComponent<Rigidbody>();
             if (rigidbody) { rigidbody.isKinematic = true; }
 
-            animator.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             GetComponent<NavigateToTransform>().enabled = false;

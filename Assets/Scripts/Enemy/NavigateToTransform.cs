@@ -8,13 +8,11 @@ public class NavigateToTransform : MonoBehaviour
     public Transform transformGoTo;
 
     NavMeshAgent navMeshAgent;
-    Animator animator;
     
     // Start is called before the first frame update
     void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -24,11 +22,6 @@ public class NavigateToTransform : MonoBehaviour
 
     void Update()
     {
-        if (navMeshAgent.velocity != Vector3.zero)
-            animator.SetBool("Running", true);
-        else
-            animator.SetBool("Running", false);
-
         if (navMeshAgent.enabled)
         {
             if (transformGoTo)
