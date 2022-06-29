@@ -362,6 +362,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             GetComponent<NavigateToTransform>().enabled = false;
+            GetComponentInChildren<Animator>().enabled = false;
 
             Invoke("Death", 10f);
         }

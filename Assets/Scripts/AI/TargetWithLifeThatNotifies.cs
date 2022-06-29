@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class TargetWithLifeThatNotifies : TargetWithLife
 {
-    AudioSource damageSound;
-
-    private void Awake()
-    {
-        damageSound = GetComponent<AudioSource>();
-    }
+    [SerializeField] AudioSource damageSound;
 
     public interface IDeathNotifiable
     {

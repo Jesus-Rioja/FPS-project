@@ -70,8 +70,8 @@ public class WeaponBase : MonoBehaviour
 
     protected float CalcDamage(float distance)
     {
-        if(distance < minDamage) { return maxDamage; }
-        if(distance > maxDamage) { return 0f; }
+        if(distance < minRange) { return maxDamage; }
+        if(distance > maxRange) { return 0f; }
 
         float finalDamage = Mathf.Lerp(maxDamage, minDamage, (distance - minRange) / (maxDamage - minRange));
 
