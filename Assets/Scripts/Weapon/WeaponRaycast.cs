@@ -22,6 +22,10 @@ public class WeaponRaycast : WeaponMelee
     [Header("Weapon projectile direction")]
     [SerializeField] float scatterAngle = 0f;
 
+    [Header("Visuals & Audio")]
+    [SerializeField] protected Animator flashLightAnim;
+    [SerializeField] protected GameObject bloodSplatter;
+
     NoiseMaker noiseMaker;
 
     private void Awake()
@@ -58,6 +62,7 @@ public class WeaponRaycast : WeaponMelee
         {
             timeForNextShot += 1f / shotCadence;
 
+            flashLightAnim.SetTrigger("Shooting");
             audioSource?.Play();
             noiseMaker?.MakeNoise();
 
@@ -82,6 +87,9 @@ public class WeaponRaycast : WeaponMelee
                         Debug.DrawRay(hit.point, hit.normal, Color.red, 10f);
 
                         TargetBase targetBase = hit.collider.GetComponent<TargetBase>();
+
+                        if (hit.collider.tag == "Enemy")
+                            Instantiate(bloodSplatter, hit.point, hit.transform.rotation);
 
                         targetBase?.NotifyShot(CalcDamage(targetBase.transform.position));
                     }
