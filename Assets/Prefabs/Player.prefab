@@ -31,8 +31,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1700859250}
+  - {fileID: 822953318}
+  - {fileID: 2096500128172551744}
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &167715409
 MonoBehaviour:
@@ -63,7 +65,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.984456, y: 1}
+    m_SensorSize: {x: 1.9762642, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -238,8 +240,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822953317}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.086, z: 1.36}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.532, z: 0.541}
   m_LocalScale: {x: 0.05000002, y: 0.05000002, z: 0.05000002}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -247,8 +249,8 @@ Transform:
   - {fileID: 7580968939693697777}
   - {fileID: 7254052921976747524}
   - {fileID: 460069526666767135}
-  m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 0
+  m_Father: {fileID: 167715407}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1633634431
 MonoBehaviour:
@@ -304,13 +306,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978865832}
-  m_LocalRotation: {x: -0.7020201, y: -0.031870462, z: 0.04600209, w: -0.70995486}
-  m_LocalPosition: {x: 1.5312347, y: 0.42355818, z: -0.21166992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.473, y: 0.503, z: 1.257}
   m_LocalScale: {x: 0.05000003, y: 0.050000016, z: 0.050000027}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &978865836
 Light:
@@ -444,7 +446,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &1094572529
 SpriteRenderer:
@@ -657,7 +659,7 @@ Transform:
   - {fileID: 314856710}
   - {fileID: 1280292306}
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1700859249
 GameObject:
@@ -754,6 +756,37 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!1 &5446523187359893372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2096500128172551744}
+  m_Layer: 7
+  m_Name: CommonShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2096500128172551744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446523187359893372}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.464}
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 167715407}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &5890644700454204254
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +819,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7898843632849751105
 MeshFilter:
@@ -881,7 +914,7 @@ Transform:
   m_Children:
   - {fileID: 7980302023171840642}
   m_Father: {fileID: 7580968940148620279}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7580968940148620272
 GameObject:
@@ -918,7 +951,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 822953318}
   - {fileID: 7580968939044806902}
   - {fileID: 7397887755356679395}
   - {fileID: 1094572528}
@@ -974,7 +1006,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7580968940148620272}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ece2b400908bef941a942ef2fd179d69, type: 3}
   m_Name: 
@@ -1031,7 +1063,7 @@ MonoBehaviour:
       m_Calls: []
   Life: 50
   medikitLifeRecovey: 10
-  damageSound: {fileID: 0}
+  damageSound: {fileID: 314856711}
 --- !u!114 &4905459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: minDamage
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: consumesAmmo
@@ -1125,19 +1157,19 @@ PrefabInstance:
       objectReference: {fileID: 978865834}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: targetLayers.m_Bits
-      value: 4294966139
+      value: 4294966131
       objectReference: {fileID: 0}
     - target: {fileID: 1473937934, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.5
+      value: -7.1
       objectReference: {fileID: 0}
     - target: {fileID: 1473937934, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8
+      value: 4.94
       objectReference: {fileID: 0}
     - target: {fileID: 1473937934, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.8
+      value: 9.2
       objectReference: {fileID: 0}
     - target: {fileID: 8754547080767721240, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_Name
@@ -1525,49 +1557,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4067681432573968107, guid: dcf65679d5c7cd24aab0e9db34d50dd7, type: 3}
   m_PrefabInstance: {fileID: 5856453730596262937}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7944766288655043202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7580968939693697778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 966964af492172e44be1d532cad732d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  rechargeTime: 0
-  RechargeTimeEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  canShootOnce: 0
-  canShootContinuously: 0
-  ShotAllowed: 1
-  minRange: 1
-  maxRange: 25
-  minDamage: 1
-  maxDamage: 0.25
-  maxAmmo: 100
-  currentAmmo: 24
-  ammoInCurrentMagazine: 12
-  magazineCapacity: 12
-  reloadTime: 5
-  consumesAmmo: 1
-  meleePoint: {fileID: 0}
-  forwardRange: 1
-  horizontalRange: 1
-  verticalRange: 1
-  meleeDamage: 0.25
-  meleeCadence: 1
-  range: 200
-  shotCadence: 5
-  projectilesPerShot: 8
-  shootPoint: {fileID: 0}
-  scatterAngle: 0
 --- !u!114 &1685814244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +1600,53 @@ MonoBehaviour:
   projectilesPerShot: 7
   shootPoint: {fileID: 0}
   scatterAngle: 0
+  flashLightAnim: {fileID: 0}
+  bloodSplatter: {fileID: 0}
+--- !u!114 &7944766288655043202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7580968939693697778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966964af492172e44be1d532cad732d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  rechargeTime: 0
+  RechargeTimeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canShootOnce: 0
+  canShootContinuously: 0
+  ShotAllowed: 1
+  minRange: 1
+  maxRange: 25
+  minDamage: 1
+  maxDamage: 0.25
+  maxAmmo: 100
+  currentAmmo: 24
+  ammoInCurrentMagazine: 12
+  magazineCapacity: 12
+  reloadTime: 5
+  consumesAmmo: 1
+  meleePoint: {fileID: 0}
+  forwardRange: 1
+  horizontalRange: 1
+  verticalRange: 1
+  meleeDamage: 0.25
+  meleeCadence: 1
+  range: 200
+  shotCadence: 5
+  projectilesPerShot: 8
+  shootPoint: {fileID: 0}
+  scatterAngle: 0
+  flashLightAnim: {fileID: 0}
+  bloodSplatter: {fileID: 0}
 --- !u!1001 &6829428424392542069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3101,7 +3137,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7346614282224484408}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: f02e946da8f90214cb1afaab936d3ece, type: 2}
   m_CullingMode: 0
