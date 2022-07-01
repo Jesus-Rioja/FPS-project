@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4067681432573968104}
   - component: {fileID: 1573137229}
   - component: {fileID: 1573137230}
-  - component: {fileID: 1573137228}
+  - component: {fileID: 2720041552926800516}
   m_Layer: 7
   m_Name: Shotgun
   m_TagString: Untagged
@@ -64,7 +64,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4067681432076907694}
-  - {fileID: 2423911702740915243}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -263,7 +262,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1573137228
+--- !u!114 &2720041552926800516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,51 +271,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 4067681432573968107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6f90ca51740a24468ed419082401ad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 966964af492172e44be1d532cad732d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 4294967163
-  canShootOnce: 1
+    m_Bits: 4294967291
+  rechargeTime: 0
+  RechargeTimeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canShootOnce: 0
   canShootContinuously: 0
+  ShotAllowed: 1
+  minRange: 1
+  maxRange: 25
+  minDamage: 1
+  maxDamage: 0.25
+  maxAmmo: 100
+  currentAmmo: 24
+  ammoInCurrentMagazine: 12
+  magazineCapacity: 12
+  reloadTime: 5
+  consumesAmmo: 1
+  meleePoint: {fileID: 0}
+  forwardRange: 1
+  horizontalRange: 1
+  verticalRange: 1
+  meleeDamage: 0.25
+  meleeCadence: 1
   range: 200
-  fireRate: 0.9
-  shootPoint: {fileID: 2423911702740915243}
-  laserWidth: 0.075
-  scatterAngle: 140
-  numShots: 10
---- !u!1 &8040619844638245033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2423911702740915243}
-  m_Layer: 7
-  m_Name: ShootPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2423911702740915243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8040619844638245033}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 9.1, y: 5.38, z: -0.18}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4067681432573968104}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  shotCadence: 5
+  projectilesPerShot: 1
+  shootPoint: {fileID: 0}
+  scatterAngle: 0
+  flashPoint: {fileID: 0}
+  flashLight: {fileID: 0}
+  bloodSplatter: {fileID: 0}
 --- !u!1001 &4067681433255261865
 PrefabInstance:
   m_ObjectHideFlags: 0

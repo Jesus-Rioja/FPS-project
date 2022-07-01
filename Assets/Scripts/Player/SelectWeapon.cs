@@ -91,9 +91,9 @@ public class SelectWeapon : MonoBehaviour
         PlayerPrefs.SetInt(weaponName, 1);
 
         weaponAcquired[0] = PlayerPrefs.GetInt("Machine gun", 1);
-        weaponAcquired[1] = PlayerPrefs.GetInt("Shotgun", 0);
-        weaponAcquired[2] = PlayerPrefs.GetInt("Grenade launcher", 0);
-        weaponAcquired[3] = PlayerPrefs.GetInt("Flamethrower", 0);
+        weaponAcquired[1] = PlayerPrefs.GetInt("Shotgun", 1);
+        weaponAcquired[2] = PlayerPrefs.GetInt("Grenade launcher", 1);
+        weaponAcquired[3] = PlayerPrefs.GetInt("Flamethrower", 1);
     }
 
 }

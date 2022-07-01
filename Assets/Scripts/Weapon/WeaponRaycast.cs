@@ -23,7 +23,8 @@ public class WeaponRaycast : WeaponMelee
     [SerializeField] float scatterAngle = 0f;
 
     [Header("Visuals & Audio")]
-    [SerializeField] protected Animator flashLightAnim;
+    [SerializeField] protected Transform flashPoint;
+    [SerializeField] protected GameObject flashLight;
     [SerializeField] protected GameObject bloodSplatter;
 
     NoiseMaker noiseMaker;
@@ -62,7 +63,7 @@ public class WeaponRaycast : WeaponMelee
         {
             timeForNextShot += 1f / shotCadence;
 
-            flashLightAnim.SetTrigger("Shooting");
+            Instantiate(flashLight, flashPoint.position, Quaternion.identity);
             audioSource?.Play();
             noiseMaker?.MakeNoise();
 

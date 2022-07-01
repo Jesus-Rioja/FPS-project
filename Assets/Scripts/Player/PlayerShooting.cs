@@ -21,6 +21,7 @@ public class PlayerShooting : MonoBehaviour
     bool Swinging = false;
     bool MeleeAttackAllowed = true;
     GameObject currentWeaponVisuals;
+    [SerializeField] CrosshairControl crosshairControl;
 
 
 
@@ -52,6 +53,7 @@ public class PlayerShooting : MonoBehaviour
             {
                 if(ShootAllowed && !Swinging)
                 {
+                    crosshairControl.TriggerAnim();
                     currentWeapon.StartShooting();
                     currentWeapon.EnableAnim();
                 }
