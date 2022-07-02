@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -183,7 +184,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 else
                 {
                     if(oldIsInMinRange != isInMinRange)
-                        { currentSideStepDirection = Random.Range(0f, 100f) < 50f; }
+                        { currentSideStepDirection = UnityEngine.Random.Range(0f, 100f) < 50f; }
                     SideStep(currentSideStepDirection);
                 }
             }
@@ -223,13 +224,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     }
 
     Transform selectedCover;
-    float timeCovering;
-    [SerializeField] float thresholdCover = 1f;
+    float timeCovering = 0f;
+    [SerializeField] float thresholdCover = 2f;
 
     void UpdateTakeCover()  //OPCIONAL CURRARSELO MAS
     {
         if (Vector3.Distance(selectedCover.position, transform.position) > thresholdCover)
-        { 
+        {
             //Yendo a cubrirse
             GoTo(selectedCover); 
         }
@@ -244,9 +245,13 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             }
             else
             {
+                Debug.Log("bajamos de tiempo");
                 timeCovering -= Time.deltaTime;
                 if (timeCovering < 0f)
-                { state = State.CheckLastPosition; }
+                { 
+                    state = State.CheckLastPosition;
+                    timeCovering = 2f;
+                }
             }
 
         }
@@ -324,24 +329,77 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     Transform FindBestCover()
     {
+
         Collider[] potentialCovers = Physics.OverlapSphere(transform.position, coverSearchRadius, coverSearchLayerMask, QueryTriggerInteraction.Ignore);
 
+        Collider[] sortedPotentialCovers = SortCovers(potentialCovers);
+
+        float bestDistance = FindBestDistance(sortedPotentialCovers);
         //TODO: discard covers that are closer to
         //      the current target than this entity
         //TODO: sort potential covers
-        foreach (Collider c in potentialCovers)
+        foreach (Collider c in sortedPotentialCovers)
         {
-            RaycastHit hit;
-            Vector3 direction = c.transform.position - currentTarget.position;
-            if (Physics.Raycast(currentTarget.position, direction, out hit, direction.magnitude, occludingLayerMask, QueryTriggerInteraction.Ignore))
+            float coverDistance = Vector3.Distance(transform.position, c.transform.position);
+            if(coverDistance == bestDistance)
             {
-                return c.transform;
+                Transform[] coverAxis = c.GetComponentsInChildren<Transform>();
+                Transform bestAxis = coverAxis[0];
+
+                for (int i = 1; i < coverAxis.Length; i++)
+                {
+                    float farestDistance = Vector3.Distance(currentTarget.position, bestAxis.transform.position);
+                    float newDistance = Vector3.Distance(currentTarget.position, coverAxis[i].transform.position);
+                    if (farestDistance < newDistance)
+                    { bestAxis = coverAxis[i]; }
+                }
+
+                return bestAxis;
             }
         }
 
         return null;
     }
 
+    Collider[] SortCovers(Collider[] coversArray)
+    {
+        Collider[] sortedCoversArray = new Collider[coversArray.Length];
+
+        int j = 0;
+        for(int i = 0; i < coversArray.Length; i++)
+        {
+            float enemyToCoverDistance = Vector3.Distance(transform.position, coversArray[i].transform.position);
+            float playerToCoverDistance = Vector3.Distance(currentTarget.position, coversArray[i].transform.position);
+            if (enemyToCoverDistance < playerToCoverDistance)
+            {
+                RaycastHit hit;
+                Vector3 direction = coversArray[i].transform.position - currentTarget.position;
+                if (Physics.Raycast(currentTarget.position, direction, out hit, direction.magnitude, occludingLayerMask, QueryTriggerInteraction.Ignore))
+                {
+                    sortedCoversArray[j] = coversArray[i];
+                    j++;
+                }
+            }
+        }
+
+        Array.Resize<Collider>(ref sortedCoversArray, j);
+
+        return sortedCoversArray;
+    }
+
+    float FindBestDistance(Collider[] coversArray)
+    {
+        float nearestDistance = Vector3.Distance(transform.position, coversArray[0].transform.position);
+
+        for (int i = 1; i < coversArray.Length; i++)
+        {
+            float newDistance = Vector3.Distance(transform.position, coversArray[i].transform.position);
+            if (nearestDistance > newDistance)
+            { nearestDistance = newDistance; }
+        }
+
+        return nearestDistance;
+    }
 
 
     void TargetWithLifeThatNotifies.IDeathNotifiable.NotifyDeath()
