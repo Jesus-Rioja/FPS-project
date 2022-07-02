@@ -3364,7 +3364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952980032820396666, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: occludingLayerMask.m_Bits
-      value: 4294967291
+      value: 2147483643
       objectReference: {fileID: 0}
     - target: {fileID: 3017600538694611458, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: flashLight
@@ -3374,6 +3374,10 @@ PrefabInstance:
       propertyPath: flashPoint
       value: 
       objectReference: {fileID: 809471780}
+    - target: {fileID: 3195741976778016880, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5945694260812602016, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: occludingLayerMask.m_Bits
       value: 3221225339

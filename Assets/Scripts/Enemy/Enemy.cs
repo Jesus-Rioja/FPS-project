@@ -229,6 +229,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void UpdateTakeCover()  //OPCIONAL CURRARSELO MAS
     {
+        Debug.Log("aqui estoy bro");
         if (Vector3.Distance(selectedCover.position, transform.position) > thresholdCover)
         {
             //Yendo a cubrirse
@@ -245,7 +246,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             }
             else
             {
-                Debug.Log("bajamos de tiempo");
                 timeCovering -= Time.deltaTime;
                 if (timeCovering < 0f)
                 { 
@@ -334,17 +334,23 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
         Collider[] sortedPotentialCovers = SortCovers(potentialCovers);
 
+        if (sortedPotentialCovers == null)
+            return null;
+
         float bestDistance = FindBestDistance(sortedPotentialCovers);
         //TODO: discard covers that are closer to
         //      the current target than this entity
         //TODO: sort potential covers
+
+        Transform bestAxis = null;
+
         foreach (Collider c in sortedPotentialCovers)
         {
             float coverDistance = Vector3.Distance(transform.position, c.transform.position);
             if(coverDistance == bestDistance)
             {
                 Transform[] coverAxis = c.GetComponentsInChildren<Transform>();
-                Transform bestAxis = coverAxis[0];
+                bestAxis = coverAxis[0];
 
                 for (int i = 1; i < coverAxis.Length; i++)
                 {
@@ -353,16 +359,15 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                     if (farestDistance < newDistance)
                     { bestAxis = coverAxis[i]; }
                 }
-
-                return bestAxis;
             }
         }
 
-        return null;
+        return bestAxis;
     }
 
     Collider[] SortCovers(Collider[] coversArray)
     {
+        bool found = false;
         Collider[] sortedCoversArray = new Collider[coversArray.Length];
 
         int j = 0;
@@ -376,6 +381,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
                 Vector3 direction = coversArray[i].transform.position - currentTarget.position;
                 if (Physics.Raycast(currentTarget.position, direction, out hit, direction.magnitude, occludingLayerMask, QueryTriggerInteraction.Ignore))
                 {
+                    found = true;
                     sortedCoversArray[j] = coversArray[i];
                     j++;
                 }
@@ -384,7 +390,10 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
         Array.Resize<Collider>(ref sortedCoversArray, j);
 
-        return sortedCoversArray;
+        if (found)
+            return sortedCoversArray;
+        else
+            return null;
     }
 
     float FindBestDistance(Collider[] coversArray)
