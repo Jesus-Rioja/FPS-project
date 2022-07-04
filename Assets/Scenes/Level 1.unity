@@ -4121,6 +4121,26 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 814492528}
+    - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: maxDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: minDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: meleeDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: meleeCadence
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: rechargeTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1174143429745605482, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
       propertyPath: anim
       value: 
