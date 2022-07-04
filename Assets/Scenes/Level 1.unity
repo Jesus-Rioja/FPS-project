@@ -4139,7 +4139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 213687655917032687, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
       propertyPath: rechargeTime
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1174143429745605482, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
       propertyPath: anim
