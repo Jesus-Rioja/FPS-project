@@ -10,7 +10,7 @@ public class WeaponMelee : WeaponBase
     [SerializeField] float verticalRange = 1f;
 
     [SerializeField] float meleeDamage = 0.25f;
-    [SerializeField] float meleeCadence = 1f;
+    [SerializeField] float meleeCadence = 0.25f;
 
     private void Start()
     {
@@ -21,6 +21,7 @@ public class WeaponMelee : WeaponBase
     {
         if (isUsable)
         {
+            anim.SetTrigger("MeleeAttack");
             isUsable = false;
             Invoke(nameof(SwingEnd), (1f / meleeCadence));
 
@@ -38,6 +39,7 @@ public class WeaponMelee : WeaponBase
 
     void SwingEnd()
     {
+        Debug.Log("termino melee");
         isUsable = true;
     }
 }

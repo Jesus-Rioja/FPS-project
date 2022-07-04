@@ -20,7 +20,7 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] float minDamage = 1f;
     [SerializeField] float maxDamage = 0.25f;
 
-    protected bool isUsable = true;
+    public bool isUsable = true;
 
 
     public enum WeaponUseType
@@ -117,10 +117,14 @@ public class WeaponBase : MonoBehaviour
     public bool HasAmmo() { return currentAmmo > 0; }
     public bool NeedsReload() { return HasAmmo() && (ammoInCurrentMagazine == 0); }
 
+    [SerializeField] protected Animator anim;
+
     public void Reload()
     {
         if(isUsable)
         {
+            if(anim != null) { anim.SetTrigger("Reload"); }
+
             Debug.Log("Empiezo a recargar");
             isUsable = false;
             isReloading = true;

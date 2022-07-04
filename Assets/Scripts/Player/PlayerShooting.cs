@@ -16,18 +16,12 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] int MeleeAttackCharges = 5;
     public int CurrentMeleeAttackCharges = 5;
 
-    Animator anim;
-    bool ShootAllowed = true;
-    bool Swinging = false;
-    bool MeleeAttackAllowed = true;
-    GameObject currentWeaponVisuals;
     [SerializeField] CrosshairControl crosshairControl;
 
 
 
     private void Awake()
     {
-        anim = GetComponentInChildren<Animator>();
         CurrentMeleeAttackCharges = MeleeAttackCharges;
         MeleeAttackTimer = MeleeAttackCooldown;
     }
@@ -36,9 +30,11 @@ public class PlayerShooting : MonoBehaviour
     {
         if (currentWeapon.canShootOnce)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && currentWeapon.isUsable)
             {
-                if(ShootAllowed && !Swinging)
+                if (currentWeapon.NeedsReload())
+                { currentWeapon.Reload(); }
+                else if (currentWeapon.HasAmmo())
                 {
                     currentWeapon.Shot();
                     currentWeapon.EnableAnim();
@@ -49,13 +45,19 @@ public class PlayerShooting : MonoBehaviour
         }
         else if(currentWeapon.canShootContinuously)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon.isUsable)
             {
-                if(ShootAllowed && !Swinging)
+                if (currentWeapon.NeedsReload())
+                { currentWeapon.Reload(); }
+                else if (currentWeapon.HasAmmo())
                 {
                     crosshairControl.TriggerAnim();
                     currentWeapon.StartShooting();
                     currentWeapon.EnableAnim();
+                }
+                else
+                {
+                    currentWeapon.StopShooting();
                 }
             }
             else
@@ -71,30 +73,9 @@ public class PlayerShooting : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if(MeleeAttackAllowed && CurrentMeleeAttackCharges > 0)
-            {
-                MeleeAttackAllowed = false;
-                Swinging = true;
-                CurrentMeleeAttackCharges--;
-                currentWeaponVisuals = currentWeapon.gameObject.GetComponentInChildren<Visuals>().gameObject;
-                currentWeaponVisuals.SetActive(false);
-                anim.SetTrigger("MeleeAttack");
-                Invoke("MeleeAttack", 1f);
-                Invoke("ActivateWeaponHandler", 2f);
-            }
+             currentWeapon.Swing();
         }
-        else
-        {
-            if (CurrentMeleeAttackCharges < MeleeAttackCharges)
-            {
-                MeleeAttackTimer -= Time.deltaTime;
-                if (MeleeAttackTimer <= 0)
-                {
-                    CurrentMeleeAttackCharges = MeleeAttackCharges;
-                    MeleeAttackTimer = MeleeAttackCooldown;
-                }
-            }
-        }
+
     }
 
     public void ChangeCurrentWeapon(WeaponBase newWeapon)
@@ -103,20 +84,6 @@ public class PlayerShooting : MonoBehaviour
         currentWeapon = newWeapon;
     }
 
-    void MeleeAttack()
-    {
-        MeleeAttackTimer = MeleeAttackCooldown;
-        meleeWeapon.Swing();
-    }
-
-    void ActivateWeaponHandler()
-    {
-        Swinging = false;
-
-        currentWeaponVisuals.SetActive(true);
-        MeleeAttackAllowed = true;
-        //WeaponHandler.SetActive(true);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
