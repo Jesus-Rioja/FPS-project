@@ -895,7 +895,7 @@ MonoBehaviour:
   occludingLayerMask:
     serializedVersion: 2
     m_Bits: 2147483643
-  behaviourType: 1
+  behaviourType: 0
   state: 0
   checkPositionThreshold: 1.5
   thresholdCover: 1
@@ -920,6 +920,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   Life: 5
+  maxLife: 1
   medikitLifeRecovey: 10
   damageSound: {fileID: 1427230617}
 --- !u!114 &4117718756750074682
@@ -1893,6 +1894,7 @@ MonoBehaviour:
   maxRange: 15
   minDamage: 1
   maxDamage: 2
+  isUsable: 1
   maxAmmo: 100
   currentAmmo: 24
   ammoInCurrentMagazine: 12

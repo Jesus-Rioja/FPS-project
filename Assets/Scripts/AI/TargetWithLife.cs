@@ -30,7 +30,30 @@ public class TargetWithLife : TargetBase
     DeathInfo deathInfo = new DeathInfo();
 
     public float Life = 1f;
+    [SerializeField] float maxLife = 1f;
     [SerializeField] float medikitLifeRecovey = 10f;
+    float timeToRegenerateLife = 5f;
+    float timePerTick = 1.5f;
+
+    private void Start()
+    {
+        Life = maxLife;
+    }
+
+    private void Update()
+    {
+        timeToRegenerateLife -= Time.deltaTime;
+        if(timeToRegenerateLife <= 0)
+        {
+            timePerTick -= Time.deltaTime;
+            if(timePerTick <= 0)
+            {
+                timePerTick = 1.5f;
+                Life += 1;
+                if(Life >= maxLife) { Life = maxLife; }
+            }
+        }
+    }
 
     public override void NotifyShot(float damage)
     {
@@ -59,6 +82,7 @@ public class TargetWithLife : TargetBase
 
     protected virtual void LoseLife(DamageType damageType, float howMuch)
     {
+        timeToRegenerateLife = 5f;
         deathInfo.type = damageType;
         switch (deathInfo.type)
         {
