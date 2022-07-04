@@ -4179,6 +4179,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 167715409, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.1676719
+      objectReference: {fileID: 0}
     - target: {fileID: 1259696578, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
       propertyPath: crosshairControl
       value: 
@@ -18751,7 +18755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalRotation.x
@@ -18759,7 +18763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalRotation.z
@@ -18771,7 +18775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8328293020083469390, guid: 4fd045b03fcad5f4bae403ad017e4a27, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

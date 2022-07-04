@@ -229,7 +229,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void UpdateTakeCover()  //OPCIONAL CURRARSELO MAS
     {
-        Debug.Log("aqui estoy bro");
+
         if (Vector3.Distance(selectedCover.position, transform.position) > thresholdCover)
         {
             //Yendo a cubrirse
@@ -284,6 +284,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void GoTo(Vector3 position)
     {
+        Debug.Log("voy a una pos");
         navigateRoute.enabled = false;
         navigateToTransform.enabled = false;
         navigateToPosition.enabled = true;
@@ -299,6 +300,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void GoTo(Transform targetTransform)
     {
+        Debug.Log("voy a un transform");
         navigateRoute.enabled = false;
         navigateToTransform.enabled = true;
         navigateToTransform.transformGoTo = targetTransform;
@@ -437,7 +439,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void NoiseMaker.INoiseListener.OnHeard(NoiseMaker noiseMaker)
     {
-        Debug.Log(noiseMaker);
         lastHeardNoiseMaker = noiseMaker;
         timeLeftToForgetNoiseMaker = timetoForgetNoiseMaker;
     }

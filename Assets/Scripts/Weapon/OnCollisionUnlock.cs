@@ -17,7 +17,6 @@ public class OnCollisionUnlock : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("colisionnn sin player");
         if (other.CompareTag("Player"))
         {
             Debug.Log("colisionnn");

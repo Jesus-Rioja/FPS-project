@@ -32,23 +32,28 @@ public class TargetWithLife : TargetBase
     public float Life = 1f;
     [SerializeField] float maxLife = 1f;
     [SerializeField] float medikitLifeRecovey = 10f;
-    float timeToRegenerateLife = 5f;
-    float timePerTick = 1.5f;
+
+    [SerializeField] float timeToRegenerateLife = 10f;
+    float regenerateLifeTimer;
+    float lifeTickTimer;
+    float timePerTick = 2f;
 
     private void Start()
     {
+        lifeTickTimer = timePerTick;
+        regenerateLifeTimer = timeToRegenerateLife;
         Life = maxLife;
     }
 
     private void Update()
     {
-        timeToRegenerateLife -= Time.deltaTime;
-        if(timeToRegenerateLife <= 0)
+        regenerateLifeTimer -= Time.deltaTime;
+        if(regenerateLifeTimer <= 0)
         {
-            timePerTick -= Time.deltaTime;
-            if(timePerTick <= 0)
+            lifeTickTimer -= Time.deltaTime;
+            if(lifeTickTimer <= 0)
             {
-                timePerTick = 1.5f;
+                lifeTickTimer = timePerTick;
                 Life += 1;
                 if(Life >= maxLife) { Life = maxLife; }
             }
@@ -82,7 +87,7 @@ public class TargetWithLife : TargetBase
 
     protected virtual void LoseLife(DamageType damageType, float howMuch)
     {
-        timeToRegenerateLife = 5f;
+        regenerateLifeTimer = timeToRegenerateLife;
         deathInfo.type = damageType;
         switch (deathInfo.type)
         {

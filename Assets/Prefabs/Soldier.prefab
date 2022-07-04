@@ -869,10 +869,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.8216138
-  m_Height: 3.55
+  m_Radius: 0.2609024
+  m_Height: 2.5780594
   m_Direction: 1
-  m_Center: {x: 0.013668537, y: 1, z: 0}
+  m_Center: {x: 0.013668537, y: 0.51402986, z: -0.030680656}
 --- !u!114 &2952980032820396666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,8 +887,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attacksPerSecond: 0.5
   timetoForgetNoiseMaker: 1
-  fearDistance: 15
-  coverSearchRadius: 20
+  fearDistance: 20
+  coverSearchRadius: 30
   coverSearchLayerMask:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -919,9 +919,10 @@ MonoBehaviour:
   onLifeLost:
     m_PersistentCalls:
       m_Calls: []
-  Life: 5
-  maxLife: 1
+  Life: 10
+  maxLife: 10
   medikitLifeRecovey: 10
+  timeToRegenerateLife: 5
   damageSound: {fileID: 1427230617}
 --- !u!114 &4117718756750074682
 MonoBehaviour:
@@ -963,9 +964,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c456fe301ae2a459d3e2dda2f92b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 50
-  sightWidth: 10
-  sightHeight: 5
+  sightDistance: 80
+  sightWidth: 20
+  sightHeight: 10
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
@@ -1891,7 +1892,7 @@ MonoBehaviour:
   canShootContinuously: 0
   ShotAllowed: 1
   minRange: 4
-  maxRange: 15
+  maxRange: 60
   minDamage: 1
   maxDamage: 2
   isUsable: 1
