@@ -889,8 +889,8 @@ MonoBehaviour:
   attacksPerSecond: 0.5
   timetoForgetNoiseMaker: 1
   weaponSelectedIndex: 0
-  fearDistance: 20
-  coverSearchRadius: 30
+  fearDistance: 10
+  coverSearchRadius: 20
   coverSearchLayerMask:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -901,7 +901,7 @@ MonoBehaviour:
   behaviourType: 0
   state: 0
   checkPositionThreshold: 1.5
-  thresholdCover: 1
+  thresholdCover: 1.5
 --- !u!114 &8458991208608273508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,9 +967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c456fe301ae2a459d3e2dda2f92b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 80
-  sightWidth: 20
-  sightHeight: 10
+  sightDistance: 50
+  sightWidth: 18
+  sightHeight: 8
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291

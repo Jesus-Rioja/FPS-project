@@ -52,7 +52,7 @@ public class PlayerShooting : MonoBehaviour
             }
         } 
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.R) && currentWeapon.HasAmmo())
         {
             currentWeapon.Reload();
         }
