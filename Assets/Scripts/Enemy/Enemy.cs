@@ -27,6 +27,9 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     Transform currentTarget = null;
     NoiseMaker lastHeardNoiseMaker = null;
 
+    [Header("On death drops")]
+    [SerializeField] GameObject AmmoDrop;
+
     Sight sight;
 
     enum State
@@ -432,6 +435,8 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             GetComponent<NavMeshAgent>().enabled = false;
             GetComponent<NavigateToTransform>().enabled = false;
             GetComponentInChildren<Animator>().enabled = false;
+
+            Instantiate(AmmoDrop, transform.position, Quaternion.identity);
 
             Invoke("Death", 10f);
         }

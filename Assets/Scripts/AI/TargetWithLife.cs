@@ -138,6 +138,7 @@ public class TargetWithLife : TargetBase
             //TODO: disallow recovery more
             //  life than original life max value
             Life += medikitLifeRecovey;
+            if (Life >= maxLife) { Life = maxLife; }
             Destroy(other.gameObject);
         }
     }

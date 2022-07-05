@@ -9,22 +9,8 @@ public class PlayerShooting : MonoBehaviour
     [Header("Range Weapons info")]
     [SerializeField] GameObject WeaponHandler;
 
-    [Header("Melee Weapon info")]
-    [SerializeField] WeaponBase meleeWeapon;
-    [SerializeField] float MeleeAttackCooldown = 5f;
-    float MeleeAttackTimer = 0f;
-    [SerializeField] int MeleeAttackCharges = 5;
-    public int CurrentMeleeAttackCharges = 5;
-
     [SerializeField] CrosshairControl crosshairControl;
 
-
-
-    private void Awake()
-    {
-        CurrentMeleeAttackCharges = MeleeAttackCharges;
-        MeleeAttackTimer = MeleeAttackCooldown;
-    }
 
     void Update()
     {
