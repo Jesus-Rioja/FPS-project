@@ -12,7 +12,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     [SerializeField] float attacksPerSecond = 0.5f;
     [SerializeField] float timetoForgetNoiseMaker = 1f;
 
+    [SerializeField] int weaponSelectedIndex = 0;
+    WeaponBase[] avaiableWeapons;
     WeaponBase currentWeapon;
+
+    Animator animator;
 
     NavigateToTransform navigateToTransform;
     NavigateToPosition navigateToPosition;
@@ -61,12 +65,27 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         navigateToPosition = GetComponent<NavigateToPosition>();
         navigateRoute = GetComponent<NavigateRoute>();
 
-        currentWeapon = GetComponentInChildren<WeaponBase>();
+        animator = GetComponentInChildren<Animator>();
+        avaiableWeapons = GetComponentsInChildren<WeaponBase>();
         sight = GetComponent<Sight>();
     }
 
     private void Start()
     {
+        for(int i = 0; i < avaiableWeapons.Length; i++)
+        {
+            if (weaponSelectedIndex == i)
+            {
+                avaiableWeapons[i].gameObject.SetActive(true);
+                currentWeapon = avaiableWeapons[i];
+            }
+            else 
+            {
+                avaiableWeapons[i].gameObject.SetActive(false);
+            }
+
+        }
+
         navigateToTransform.enabled = false;
         navigateToPosition.enabled = false;
         navigateRoute.enabled = false;
@@ -93,6 +112,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         UpdateNoiseMaker();
 
         UpdateCurrentTarget();
+
+        if (currentWeapon.GetUseType() == WeaponBase.WeaponUseType.ContinuousShot && state != State.Attack)
+        {
+            currentWeapon.StopShooting();
+        }
 
         switch (state)
         {
@@ -210,7 +234,17 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             // utilizar las llamadas correctas
             // para disparar
 
-            currentWeapon.Shot();
+            if (currentWeapon.GetUseType() == WeaponBase.WeaponUseType.Shot)
+            {
+                Debug.Log("Dispario una");
+                currentWeapon.Shot();
+            }
+            else if (currentWeapon.GetUseType() == WeaponBase.WeaponUseType.ContinuousShot)
+            {
+                Debug.Log("Dispario multi");
+                currentWeapon.StartShooting();
+            }
+
 
             if(currentWeapon.NeedsReload())
                 { currentWeapon.Reload(); }
@@ -232,26 +266,32 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void UpdateTakeCover()  //OPCIONAL CURRARSELO MAS
     {
-
         if (Vector3.Distance(selectedCover.position, transform.position) > thresholdCover)
         {
+            animator.SetBool("Kneel", false);
             //Yendo a cubrirse
             GoTo(selectedCover); 
         }
         else
         {
+            animator.SetBool("Kneel", true);
             //Estamos a cubierto
             if (currentTarget != null)
             {
+                
                 selectedCover = FindBestCover();
                 if(!selectedCover)
-                    { state = State.Attack; }
+                {
+                    animator.SetBool("Kneel", false);
+                    state = State.Attack; 
+                }
             }
             else
             {
                 timeCovering -= Time.deltaTime;
                 if (timeCovering < 0f)
-                { 
+                {
+                    animator.SetBool("Kneel", false);
                     state = State.CheckLastPosition;
                     timeCovering = 2f;
                 }
@@ -287,7 +327,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void GoTo(Vector3 position)
     {
-        Debug.Log("voy a una pos");
         navigateRoute.enabled = false;
         navigateToTransform.enabled = false;
         navigateToPosition.enabled = true;
@@ -303,7 +342,6 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     void GoTo(Transform targetTransform)
     {
-        Debug.Log("voy a un transform");
         navigateRoute.enabled = false;
         navigateToTransform.enabled = true;
         navigateToTransform.transformGoTo = targetTransform;

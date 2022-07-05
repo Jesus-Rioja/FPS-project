@@ -47,11 +47,6 @@ public class WeaponRaycast : WeaponMelee
         }
     }
 
-    public override WeaponUseType GetUseType()
-    {
-        return WeaponUseType.Shot;
-    }
-
     public override void Shot()
     {
         if(canShootOnce) { InternalShot(); }

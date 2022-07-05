@@ -31,7 +31,9 @@ public class WeaponBase : MonoBehaviour
         Undefined,
     };
 
-    public virtual WeaponUseType GetUseType() { return WeaponUseType.Undefined; }
+    [SerializeField] WeaponUseType weaponUseType;
+
+    public WeaponUseType GetUseType() { return weaponUseType; }
 
     public virtual void Swing()
     {
