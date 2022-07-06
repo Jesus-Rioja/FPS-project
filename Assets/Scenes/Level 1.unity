@@ -4812,6 +4812,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 167715409, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 0.6248492
+      objectReference: {fileID: 0}
     - target: {fileID: 1259696578, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
       propertyPath: crosshairControl
       value: 
@@ -4881,6 +4885,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9fabaed210a9bf46971454059186445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &657083674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 167715406, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+  m_PrefabInstance: {fileID: 657083672}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &657083675 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7580968940148620278, guid: 37809d517ff07574b96d1e45b10954ac, type: 3}
+  m_PrefabInstance: {fileID: 657083672}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d584a7a3effa5174887cc66eee2970cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &657083676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657083674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2968282ae0297469b9c03f88d012b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkingBobbingSpeed: 10
+  bobbingAmount: 0.025
+  PM: {fileID: 657083675}
 --- !u!1001 &663401962
 PrefabInstance:
   m_ObjectHideFlags: 0

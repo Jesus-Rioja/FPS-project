@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
     Animator anim;
 
     Vector3 movementFromInput;
-    Vector3 movementOnPlane;
+    public Vector3 movementOnPlane;
 
     float gravity = -9.8f;
     float speedY;
