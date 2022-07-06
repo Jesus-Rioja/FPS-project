@@ -36,6 +36,9 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     Sight sight;
 
+    Vector3 spawnPosition;
+    Quaternion spawnRotation;
+
     enum State
     {
         Patrol,
@@ -68,6 +71,9 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         animator = GetComponentInChildren<Animator>();
         avaiableWeapons = GetComponentsInChildren<WeaponBase>();
         sight = GetComponent<Sight>();
+
+        spawnPosition = transform.position;
+        spawnRotation = transform.rotation;
     }
 
     private void Start()
@@ -472,9 +478,10 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             GetComponent<NavigateToTransform>().enabled = false;
+            GetComponent<NavigateToPosition>().enabled = false;
             GetComponentInChildren<Animator>().enabled = false;
 
-            Instantiate(AmmoDrop, transform.position, Quaternion.identity);
+            Instantiate(AmmoDrop, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), Quaternion.identity);
 
             Invoke("Death", 10f);
         }
@@ -484,6 +491,12 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
     {
         lastHeardNoiseMaker = noiseMaker;
         timeLeftToForgetNoiseMaker = timetoForgetNoiseMaker;
+    }
+
+    public void locateEnemy()
+    {
+        transform.position = spawnPosition;
+        transform.rotation = spawnRotation;
     }
 
     private void Death()

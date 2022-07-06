@@ -4,55 +4,35 @@ using UnityEngine;
 
 public class FightArea : MonoBehaviour
 {
-    [SerializeField] Transform limits;
-    Round[] rounds;
-    AudioSource[] limitSounds;
-    int currentRound = -1;
+    Enemy[] enemies;
+    //AudioSource[] limitSounds;
 
     void Awake()
     {
-        rounds = GetComponentsInChildren<Round>();
-        limitSounds = GetComponents<AudioSource>();
+        enemies = GetComponentsInChildren<Enemy>();
+        //limitSounds = GetComponents<AudioSource>();
+
     }
 
     private void Start()
     {
-        foreach (Round r in rounds) { r.DeactivateAllEnemies(); }
-        limits.gameObject.SetActive(false);
+        DeactivateEnemies();
     }
 
-    void Update()
+    public void ActivateEnemies()
     {
-        if((currentRound >= 0) && (currentRound < rounds.Length))
+        foreach(Enemy e in enemies)
         {
-            if (rounds[currentRound].AreAllEnemiesDead())
-            {
-                currentRound++;
-
-                if (currentRound < rounds.Length) { Invoke("ActivateNextRound", 3f); }
-                else
-                {
-                    limitSounds[1].Play();
-                    limits.gameObject.SetActive(false); 
-                }
-            }
+            e.gameObject.SetActive(true);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void DeactivateEnemies()
     {
-        if(other.CompareTag("Player") && (currentRound < 0))
+        foreach (Enemy e in enemies)
         {
-            Destroy(GetComponent<Rigidbody>());
-            currentRound = 0;
-            rounds[currentRound].ActivateAllEnemies();
-            limits.gameObject.SetActive(true);
-            limitSounds[0].Play();
+            e.locateEnemy();
+            e.gameObject.SetActive(false);
         }
-    }
-
-    private void ActivateNextRound()
-    {
-        rounds[currentRound].ActivateAllEnemies();
     }
 }
