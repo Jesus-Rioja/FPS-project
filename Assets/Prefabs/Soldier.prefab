@@ -922,8 +922,8 @@ MonoBehaviour:
   onLifeLost:
     m_PersistentCalls:
       m_Calls: []
-  Life: 10
-  maxLife: 10
+  Life: 5
+  maxLife: 5
   medikitLifeRecovey: 10
   timeToRegenerateLife: 5
   damageSound: {fileID: 1427230617}

@@ -66,7 +66,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.1735941, y: 1}
+    m_SensorSize: {x: 2.003168, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1033,10 +1033,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponHandler: {fileID: 822953317}
-  meleeWeapon: {fileID: 0}
-  MeleeAttackCooldown: 5
-  MeleeAttackCharges: 3
-  CurrentMeleeAttackCharges: 5
   crosshairControl: {fileID: 0}
 --- !u!136 &919731188
 CapsuleCollider:
@@ -1074,6 +1070,7 @@ MonoBehaviour:
   Life: 10
   maxLife: 50
   medikitLifeRecovey: 10
+  timeToRegenerateLife: 10
   damageSound: {fileID: 314856711}
 --- !u!114 &4905459
 MonoBehaviour:
@@ -1147,12 +1144,16 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
+      propertyPath: maxRange
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: maxDamage
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: minDamage
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: flashLight
@@ -1171,8 +1172,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2096500128172551744}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
+      propertyPath: meleeDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: consumesAmmo
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
+      propertyPath: meleeCadence
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: scatterAngle
@@ -1181,7 +1190,7 @@ PrefabInstance:
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: bloodSplatter
       value: 
-      objectReference: {fileID: 1855497614338780, guid: 13e29e951e2cd7644ab723b8f06d49d5, type: 3}
+      objectReference: {fileID: 1041181722733882, guid: 46cb51842826d77438ecf64a2ff442ae, type: 3}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: flashLightAnim
       value: 
@@ -1201,6 +1210,14 @@ PrefabInstance:
     - target: {fileID: 1473937934, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_LocalPosition.z
       value: 9.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754547080568307375, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754547080568307375, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8754547080767721240, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_Name
