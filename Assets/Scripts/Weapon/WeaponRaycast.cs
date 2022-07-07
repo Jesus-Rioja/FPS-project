@@ -85,7 +85,7 @@ public class WeaponRaycast : WeaponMelee
 
                         TargetBase targetBase = hit.collider.GetComponent<TargetBase>();
 
-                        if (hit.collider.tag == "Enemy")
+                        if (hit.collider.tag == "Enemy" || hit.collider.tag == "Player")
                             Instantiate(bloodSplatter, hit.point, hit.transform.rotation);
                         else
                             Instantiate(hitImpact, hit.point, hit.transform.rotation);
@@ -94,6 +94,7 @@ public class WeaponRaycast : WeaponMelee
                     }
 
                 }
+                CinemachineShake.Instance.ShakeCamera(.2f, .05f);
             }
         }
     }
