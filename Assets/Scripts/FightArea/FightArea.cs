@@ -5,6 +5,7 @@ using UnityEngine;
 public class FightArea : MonoBehaviour
 {
     Enemy[] enemies;
+
     //AudioSource[] limitSounds;
 
     void Awake()
@@ -19,20 +20,40 @@ public class FightArea : MonoBehaviour
         DeactivateEnemies();
     }
 
+
     public void ActivateEnemies()
     {
-        foreach(Enemy e in enemies)
+        if(!AreAllEnemiesDead())
         {
-            e.gameObject.SetActive(true);
+            foreach (Enemy e in enemies)
+            {
+                e.gameObject.SetActive(true);
+                e.GetComponent<TargetWithLifeThatNotifies>().regenerateLife();
+            }
         }
     }
 
     public void DeactivateEnemies()
     {
-        foreach (Enemy e in enemies)
+        if (!AreAllEnemiesDead())
         {
-            e.locateEnemy();
-            e.gameObject.SetActive(false);
+            foreach (Enemy e in enemies)
+            {
+                e.locateEnemy();
+                e.gameObject.SetActive(false);
+            }
         }
+    }
+
+    internal bool AreAllEnemiesDead()
+    {
+        bool allEnemiesAreDead = true;
+
+        for (int i = 0; allEnemiesAreDead && (i < enemies.Length); i++)
+        {
+            if (enemies[i] != null && enemies[i].GetComponent<TargetWithLife>().Life > 0) { allEnemiesAreDead = false; }
+        }
+
+        return allEnemiesAreDead;
     }
 }

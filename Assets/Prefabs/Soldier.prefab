@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c456fe301ae2a459d3e2dda2f92b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 50
+  sightDistance: 30
   sightWidth: 18
   sightHeight: 8
   targetLayerMask:

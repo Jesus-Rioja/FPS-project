@@ -131,6 +131,11 @@ public class TargetWithLife : TargetBase
         Invulnerable = false;
     }
 
+    public void regenerateLife()
+    {
+        Life = maxLife;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("MediKit"))
