@@ -72,8 +72,8 @@ public class WeaponBase : MonoBehaviour
 
     protected float CalcDamage(float distance)
     {
-        if(distance < minRange) { return maxDamage; }
-        if(distance > maxRange) { return 0f; }
+        if (distance < minRange) { return maxDamage; }
+        if (distance > maxRange) { return 0f; }
 
         float finalDamage = Mathf.Lerp(maxDamage, minDamage, (distance - minRange) / (maxDamage - minRange));
 
@@ -89,8 +89,9 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] int ammoInCurrentMagazine = 12; //AÑADIR EN START QUE NO PUEDA SER MAYOR A 12
     [SerializeField] int magazineCapacity = 12;
     [SerializeField] float reloadTime = 5f;
-    [SerializeField] bool consumesAmmo = true;
+    public bool consumesAmmo = true;
     protected bool isReloading;
+
 
     protected enum UseAmmoResult
     {
@@ -141,5 +142,9 @@ public class WeaponBase : MonoBehaviour
         isReloading = false;
         ammoInCurrentMagazine = Mathf.Min(magazineCapacity, currentAmmo);
     }
+
+    public int GetCurrentAmmo() { return currentAmmo; }
+    public int GetAmmoInCurrentMagazine() { return ammoInCurrentMagazine; }
+    public int GetMagazineCapacity() { return magazineCapacity; }
 
 }

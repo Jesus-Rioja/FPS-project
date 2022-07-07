@@ -136,6 +136,9 @@ public class TargetWithLife : TargetBase
         Life = maxLife;
     }
 
+    public float GetMaxLife()
+    { return maxLife; }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("MediKit"))

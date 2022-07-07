@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
     bool isDead = false;
 
     public bool movementAllowed = true;
+    public bool canRun = false;
 
     float oldMousePositionX;
 
@@ -74,7 +75,21 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
 
         speedY += gravity * Time.deltaTime;
         movementOnPlane.y = speedY;
-        characterController.Move(movementOnPlane * moveSpeed * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.LeftShift) && canRun)
+        {
+            //playerShooting.currentWeapon.isUsable = false;
+
+            characterController.Move(movementOnPlane * moveSpeed * 2.5f * Time.deltaTime);
+
+            //if (playerShooting.currentWeapon.canShootContinuously) { playerShooting.currentWeapon.StopShooting(); }
+        }
+        else
+        {
+            //playerShooting.currentWeapon.isUsable = true;
+
+            characterController.Move(movementOnPlane * moveSpeed * Time.deltaTime);
+        }
 
         if (characterController.isGrounded) { speedY = 0; }
     }

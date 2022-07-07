@@ -17,7 +17,7 @@ public class HealthBar : MonoBehaviour
     {
         healthBar = GetComponent<Image>();
         target = PlayerMovement.instance.GetComponent<TargetWithLifeThatNotifies>();
-        maxHealth = (int)target.Life;
+        maxHealth = (int)target.GetMaxLife();
         healthText = GetComponentInChildren<TMP_Text>();
         lastHealth = maxHealth;
         healthText.text = lastHealth + "/" + maxHealth;

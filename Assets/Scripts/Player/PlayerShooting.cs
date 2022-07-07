@@ -5,61 +5,79 @@ using System.Linq;
 
 public class PlayerShooting : MonoBehaviour
 {
-    WeaponBase currentWeapon;
+    public WeaponBase currentWeapon;
     [Header("Range Weapons info")]
     [SerializeField] GameObject WeaponHandler;
 
     [SerializeField] CrosshairControl crosshairControl;
 
+    float runAvaiableTime = 0f;
 
     void Update()
     {
-        if (currentWeapon.canShootOnce)
+        if (Time.timeScale > 0)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && currentWeapon.isUsable)
+
+            if (currentWeapon.canShootOnce)
             {
-                if (currentWeapon.NeedsReload())
-                { currentWeapon.Reload(); }
-                else if (currentWeapon.HasAmmo())
+                if (Input.GetKeyDown(KeyCode.Mouse0) && currentWeapon.isUsable)
                 {
-                    currentWeapon.Shot();
-                    currentWeapon.EnableAnim();
+                    if (currentWeapon.NeedsReload())
+                    { currentWeapon.Reload(); }
+                    else if (currentWeapon.HasAmmo())
+                    {
+                        runAvaiableTime = 0.5f;
+                        PlayerMovement.instance.canRun = false;
+                        currentWeapon.Shot();
+                        currentWeapon.EnableAnim();
+                    }
+                    else
+                        Debug.Log("quiero disparar");
                 }
                 else
-                    Debug.Log("quiero disparar");
+                {
+                    runAvaiableTime -= Time.deltaTime;
+                    if (runAvaiableTime <= 0)
+                    { PlayerMovement.instance.canRun = true; }
+                }
             }
-        }
-        else if(currentWeapon.canShootContinuously)
-        {
-            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon.isUsable)
+            else if (currentWeapon.canShootContinuously)
             {
-                if (currentWeapon.NeedsReload())
-                { currentWeapon.Reload(); }
-                else if (currentWeapon.HasAmmo())
+                if (Input.GetKey(KeyCode.Mouse0) && currentWeapon.isUsable)
                 {
-                    crosshairControl.TriggerAnim();
-                    currentWeapon.StartShooting();
-                    currentWeapon.EnableAnim();
+                    if (currentWeapon.NeedsReload())
+                    { currentWeapon.Reload(); }
+                    else if (currentWeapon.HasAmmo())
+                    {
+                        runAvaiableTime = 0.5f;
+                        PlayerMovement.instance.canRun = false;
+                        crosshairControl.TriggerAnim();
+                        currentWeapon.StartShooting();
+                        currentWeapon.EnableAnim();
+                    }
+                    else
+                    {
+                        currentWeapon.StopShooting();
+                    }
                 }
                 else
                 {
+                    runAvaiableTime -= Time.deltaTime;
+                    if (runAvaiableTime <= 0)
+                    { PlayerMovement.instance.canRun = true; }
                     currentWeapon.StopShooting();
                 }
             }
-            else
+
+            if (Input.GetKeyDown(KeyCode.R) && currentWeapon.HasAmmo())
             {
-                currentWeapon.StopShooting();
+                currentWeapon.Reload();
             }
-        } 
 
-        if(Input.GetKeyDown(KeyCode.R) && currentWeapon.HasAmmo())
-        {
-            currentWeapon.Reload();
-        }
-
-        if(Input.GetKeyDown(KeyCode.Mouse1))
-        {
-             currentWeapon.Swing();
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                currentWeapon.Swing();
+            }
         }
 
     }
