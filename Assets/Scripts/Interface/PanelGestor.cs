@@ -73,6 +73,8 @@ public class PanelGestor : MonoBehaviour
 
     public void DisableControlPanelButton()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         PlayerPrefs.SetInt("FirstPlay", 1);
         PlayerMovement.instance.movementAllowed = true;
         onMenu = false;

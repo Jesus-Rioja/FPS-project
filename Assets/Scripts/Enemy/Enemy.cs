@@ -495,8 +495,11 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
     public void locateEnemy()
     {
-        transform.position = spawnPosition;
-        transform.rotation = spawnRotation;
+        if (state != State.Die)
+        {
+            transform.position = spawnPosition;
+            transform.rotation = spawnRotation;
+        }
     }
 
     private void Death()

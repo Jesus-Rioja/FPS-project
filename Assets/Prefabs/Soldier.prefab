@@ -2108,6 +2108,7 @@ MonoBehaviour:
   flashPoint: {fileID: 3017600537986501336}
   flashLight: {fileID: 199458, guid: 29d86feb88bf925428f9d7de6d4b401f, type: 3}
   bloodSplatter: {fileID: 1855497614338780, guid: d69f42e134ac04940a19229a15320cc6, type: 3}
+  hitImpact: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
 --- !u!1 &3327436551747176445
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,6 +4133,10 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 3308180517994325162}
+    - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
+      propertyPath: hitImpact
+      value: 
+      objectReference: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
     - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
       propertyPath: flashPoint
       value: 

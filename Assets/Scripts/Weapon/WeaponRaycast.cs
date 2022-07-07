@@ -26,6 +26,7 @@ public class WeaponRaycast : WeaponMelee
     [SerializeField] protected Transform flashPoint;
     [SerializeField] protected GameObject flashLight;
     [SerializeField] protected GameObject bloodSplatter;
+    [SerializeField] protected GameObject hitImpact;
 
     NoiseMaker noiseMaker;
 
@@ -86,6 +87,8 @@ public class WeaponRaycast : WeaponMelee
 
                         if (hit.collider.tag == "Enemy")
                             Instantiate(bloodSplatter, hit.point, hit.transform.rotation);
+                        else
+                            Instantiate(hitImpact, hit.point, hit.transform.rotation);
 
                         targetBase?.NotifyShot(CalcDamage(targetBase.transform.position));
                     }
