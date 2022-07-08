@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
             characterController.height = Mathf.Lerp(minimumHeight, maximumHeight, timeToStandUp);
 
 
-            if(transform.position.y >= maximumY - 0.1f)
+            if(transform.position.y >= maximumY - 0.1f && characterController.height >= maximumHeight)
             {
                 crouchToStand = false;
             }

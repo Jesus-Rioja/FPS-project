@@ -13,7 +13,6 @@ public class PanelGestor : MonoBehaviour
     [SerializeField] GameObject LosePanel;
     [SerializeField] GameObject WeaponUnlockedPanel;
     [SerializeField] GameObject ControlsPanel;
-    [SerializeField] TextMeshProUGUI EnemiesLeftText;
 
     [SerializeField] AudioSource OnClickButtonClip;
     [SerializeField] AudioSource OnHoverButtonClip;
@@ -23,7 +22,6 @@ public class PanelGestor : MonoBehaviour
     [SerializeField] Texture2D cursorTexture;
 
     public bool onMenu = false;
-    int enemiesCounter = 0;
 
     private void Awake()
     {
@@ -33,7 +31,6 @@ public class PanelGestor : MonoBehaviour
     private void Start()
     {
         PlayerMovement.instance.GetComponent<TargetWithLifeThatNotifies>().onDeath.AddListener(ActivateLosePanel);
-        SetEnemiesCounterText();
         if(PlayerPrefs.GetInt("FirstPlay", 0) == 0) { ActivateControlsPanel(); }
 
     }
@@ -153,21 +150,6 @@ public class PanelGestor : MonoBehaviour
         WeaponUnlockedPanel.SetActive(true);
         yield return new WaitForSeconds(6f);
         WeaponUnlockedPanel.SetActive(false);
-    }
-
-    private void SetEnemiesCounterText()
-    {
-        EnemiesLeftText.text = "Enemies Left: " + enemiesCounter;
-    }
-
-    public void ModifyEnemyCount(bool increment)
-    {
-        if (increment)
-            enemiesCounter++;
-        else
-            enemiesCounter--;
-
-        SetEnemiesCounterText();
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Explosion : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class Explosion : MonoBehaviour
 
     [SerializeField] GameObject prefabVisualExplosion;
     [SerializeField] float radius = 1;
-    [SerializeField] AudioClip explosionAudioClip; // CON AUDIOCLIP NO PODEMOS METER EL SONIDO EN EL AUDIOMIXER, MIRAR DE CASMBIRLO CON EVENTS(LISTENER)
-    [SerializeField] float explosionDamage = 5f;
+
 
     void Start()
     {
@@ -29,10 +29,10 @@ public class Explosion : MonoBehaviour
         {
             // COMPROBAR QUE NO HAY PAREDES ENTRE LA EXPLOSION Y EL OBJETIVO
             TargetBase target = c.GetComponent<TargetBase>();
-            target?.NotifyExplosion(explosionDamage);
+            target?.NotifyExplosion();
         }
-
-        AudioSource.PlayClipAtPoint(explosionAudioClip, transform.position);
+        //AudioSource.PlayClipAtPoint(explosionAudioClip, transform.position);
         Instantiate(prefabVisualExplosion, transform.position, Quaternion.identity);
+        CinemachineShake.Instance.ShakeCamera(.5f, .05f);
     }
 }

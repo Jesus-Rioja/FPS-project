@@ -27,20 +27,26 @@ public class FightArea : MonoBehaviour
         {
             foreach (Enemy e in enemies)
             {
-                e.gameObject.SetActive(true);
-                e.GetComponent<TargetWithLifeThatNotifies>().regenerateLife();
+                if (e != null && e.GetComponent<TargetWithLife>().Life > 0)
+                {
+                    e.gameObject.SetActive(true);
+                    e.GetComponent<TargetWithLifeThatNotifies>().regenerateLife();
+                }
             }
         }
     }
-
+      
     public void DeactivateEnemies()
     {
         if (!AreAllEnemiesDead())
         {
             foreach (Enemy e in enemies)
             {
-                e.locateEnemy();
-                e.gameObject.SetActive(false);
+                if (e != null && e.GetComponent<TargetWithLife>().Life > 0)
+                {
+                    e.locateEnemy();
+                    e.gameObject.SetActive(false);
+                }
             }
         }
     }

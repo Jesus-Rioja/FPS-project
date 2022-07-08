@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c456fe301ae2a459d3e2dda2f92b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 30
+  sightDistance: 60
   sightWidth: 18
   sightHeight: 16
   targetLayerMask:
@@ -2083,14 +2083,14 @@ MonoBehaviour:
   ShotAllowed: 1
   minRange: 4
   maxRange: 25
-  minDamage: 1
-  maxDamage: 2
+  minDamage: 0.25
+  maxDamage: 0.7
   isUsable: 1
   weaponUseType: 2
   maxAmmo: 100
-  currentAmmo: 24
-  ammoInCurrentMagazine: 12
-  magazineCapacity: 12
+  currentAmmo: 100
+  ammoInCurrentMagazine: 30
+  magazineCapacity: 30
   reloadTime: 5
   consumesAmmo: 0
   anim: {fileID: 3308180517994325162}
@@ -2101,7 +2101,7 @@ MonoBehaviour:
   meleeDamage: 0.25
   meleeCadence: 1
   range: 100
-  shotCadence: 5
+  shotCadence: 3
   projectilesPerShot: 1
   shootPoint: {fileID: 3017600537986501336}
   scatterAngle: 5
@@ -4138,6 +4138,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
     - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
+      propertyPath: minDamage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
       propertyPath: flashPoint
       value: 
       objectReference: {fileID: 3017600537986501336}
@@ -4145,6 +4149,14 @@ PrefabInstance:
       propertyPath: shootPoint
       value: 
       objectReference: {fileID: 3017600537986501336}
+    - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
+      propertyPath: currentAmmo
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
+      propertyPath: shotCadence
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
       propertyPath: weaponUseType
       value: 1

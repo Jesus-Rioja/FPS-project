@@ -8,6 +8,7 @@ public class PressAnyKey : MonoBehaviour
     [SerializeField] GameObject MainPanel;
     [SerializeField] GameObject TitlePanel;
     [SerializeField] TextMeshProUGUI PressAnyKeyText;
+    [SerializeField] TextMeshProUGUI GameTwoKeyText;
 
     bool FadeEnded = true;
 
@@ -30,8 +31,10 @@ public class PressAnyKey : MonoBehaviour
     {
         FadeEnded = false;
         PressAnyKeyText.CrossFadeAlpha(0.0f, 3f, false);
+        GameTwoKeyText.CrossFadeAlpha(0.0f, 3f, false);
         yield return new WaitForSeconds(2.5f);
         PressAnyKeyText.CrossFadeAlpha(1.0f, 3f, false);
+        GameTwoKeyText.CrossFadeAlpha(1.0f, 3f, false);
         yield return new WaitForSeconds(4f);
         FadeEnded = true;
     }
