@@ -424,7 +424,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
         {
             float enemyToCoverDistance = Vector3.Distance(transform.position, coversArray[i].transform.position);
             float playerToCoverDistance = Vector3.Distance(currentTarget.position, coversArray[i].transform.position);
-            if (enemyToCoverDistance < playerToCoverDistance)
+            if (enemyToCoverDistance < playerToCoverDistance && coversArray[i].transform.childCount > 0)
             {
                 RaycastHit hit;
                 Vector3 direction = coversArray[i].transform.position - currentTarget.position;
