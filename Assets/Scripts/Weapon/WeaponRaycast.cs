@@ -15,6 +15,7 @@ public class WeaponRaycast : WeaponMelee
     bool isShootingContinuously;
     float timeForNextShot = 0f;
     protected RaycastHit hit;
+    Vector3 shootDirection;
 
 
     AudioSource audioSource;
@@ -37,6 +38,11 @@ public class WeaponRaycast : WeaponMelee
         noiseMaker = GetComponentInChildren<NoiseMaker>();
     }
 
+    private void Start()
+    {
+        shootDirection = shootPoint.forward;
+    }
+
     void Update ()
     {
         timeForNextShot -= Time.deltaTime;
@@ -52,6 +58,8 @@ public class WeaponRaycast : WeaponMelee
     {
         if(canShootOnce) { InternalShot(); }
     }
+
+
 
     protected void InternalShot()
     {        
@@ -72,9 +80,9 @@ public class WeaponRaycast : WeaponMelee
                     Quaternion horizontalScatter = Quaternion.AngleAxis(horizontalScatterAngle, transform.up);
 
                     float verticalScatterAngle = Random.Range(-scatterAngle, scatterAngle);
-                    Quaternion verticalScatter = Quaternion.AngleAxis(verticalScatterAngle, transform.up);
+                    Quaternion verticalScatter = Quaternion.AngleAxis(verticalScatterAngle, transform.forward);
 
-                    Vector3 shotForward = verticalScatter * (horizontalScatter * shootPoint.forward);
+                    Vector3 shotForward = verticalScatter * (horizontalScatter * shootDirection);
 
                     Ray ray = new Ray(shootPoint.position, shotForward);
 
@@ -107,6 +115,14 @@ public class WeaponRaycast : WeaponMelee
     public override void StopShooting()
     {
         isShootingContinuously = false;
+    }
+
+    public override void UpdateShootDirection(Vector3 targetPosition, bool Forward)
+    {
+        if (!Forward)
+            { shootDirection = targetPosition - shootPoint.position; }
+        else 
+            { shootDirection = shootPoint.forward; }
     }
 
 }

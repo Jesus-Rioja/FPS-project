@@ -65,6 +65,11 @@ public class WeaponBase : MonoBehaviour
 
     }
 
+    public virtual void UpdateShootDirection(Vector3 targetPosition, bool Forward)
+    {
+
+    }
+
     protected float CalcDamage(Vector3 hitPosition)
     {
         return CalcDamage(Vector3.Distance(transform.position, hitPosition));
@@ -128,7 +133,6 @@ public class WeaponBase : MonoBehaviour
         {
             if(anim != null) { anim.SetTrigger("Reload"); }
 
-            Debug.Log("Empiezo a recargar");
             isUsable = false;
             isReloading = true;
             Invoke(nameof(ReloadAfterSeconds), reloadTime); 
@@ -137,7 +141,6 @@ public class WeaponBase : MonoBehaviour
 
     void ReloadAfterSeconds()
     {
-        Debug.Log("Acabo de recargar");
         isUsable = true;
         isReloading = false;
         ammoInCurrentMagazine = Mathf.Min(magazineCapacity, currentAmmo);

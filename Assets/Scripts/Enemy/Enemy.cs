@@ -242,12 +242,12 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
 
             if (currentWeapon.GetUseType() == WeaponBase.WeaponUseType.Shot)
             {
-                Debug.Log("Dispario una");
+                currentWeapon.UpdateShootDirection(currentTarget.position, false);
                 currentWeapon.Shot();
             }
             else if (currentWeapon.GetUseType() == WeaponBase.WeaponUseType.ContinuousShot)
             {
-                Debug.Log("Dispario multi");
+                currentWeapon.UpdateShootDirection(currentTarget.position, false);
                 currentWeapon.StartShooting();
             }
 

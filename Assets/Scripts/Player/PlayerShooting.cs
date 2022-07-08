@@ -28,6 +28,7 @@ public class PlayerShooting : MonoBehaviour
                     {
                         runAvaiableTime = 0.5f;
                         PlayerMovement.instance.canRun = false;
+                        currentWeapon.UpdateShootDirection(Vector3.zero, true);
                         currentWeapon.Shot();
                         currentWeapon.EnableAnim();
                     }
@@ -52,6 +53,7 @@ public class PlayerShooting : MonoBehaviour
                         runAvaiableTime = 0.5f;
                         PlayerMovement.instance.canRun = false;
                         crosshairControl.TriggerAnim();
+                        currentWeapon.UpdateShootDirection(Vector3.zero, true);
                         currentWeapon.StartShooting();
                         currentWeapon.EnableAnim();
                     }

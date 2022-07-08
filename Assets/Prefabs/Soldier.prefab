@@ -969,13 +969,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightDistance: 30
   sightWidth: 18
-  sightHeight: 8
+  sightHeight: 16
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
   occludingLayerMask:
     serializedVersion: 2
-    m_Bits: 3221225339
+    m_Bits: 1073741691
   targetTags:
   - Player
   collidersInSight: []
@@ -1733,7 +1733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3017600537986501337}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.415, z: 0.79}
+  m_LocalPosition: {x: 0, y: 1.301, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2073,7 +2073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 4294967227
+    m_Bits: 4294966715
   rechargeTime: 0
   RechargeTimeEvent:
     m_PersistentCalls:
@@ -4148,6 +4148,10 @@ PrefabInstance:
     - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
       propertyPath: weaponUseType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698806927869594145, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 4294966715
       objectReference: {fileID: 0}
     - target: {fileID: 3698806927869594147, guid: 1013b6aaa85e7c847829b24e051fe65a, type: 3}
       propertyPath: m_Name

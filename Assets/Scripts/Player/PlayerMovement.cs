@@ -59,9 +59,23 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
 
     }
 
+    bool isCrouching = false;
+    bool crouchToStand = false;
+
+    float minimumY = 0;
+    float maximumY = 0;
+
+    float minimumHeight = 0;
+    float maximumHeight = 0;
+
+    float minimumCenter = 0;
+    float maximumCenter = 0;
+
+    float timeToStandUp = 0f;
 
     void UpdateMovement()
     {
+
         movementFromInput = Vector3.zero;
         if (Input.GetKey(KeyCode.A)) { movementFromInput += Vector3.left; }
         if (Input.GetKey(KeyCode.W)) { movementFromInput += Vector3.forward; }
@@ -76,7 +90,51 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
         speedY += gravity * Time.deltaTime;
         movementOnPlane.y = speedY;
 
-        if (Input.GetKey(KeyCode.LeftShift) && canRun)
+        if(crouchToStand)
+        {
+            timeToStandUp += 10 * Time.deltaTime;
+
+            transform.position = new Vector3(transform.position.x, Mathf.Lerp(minimumY, maximumY, timeToStandUp), transform.position.z);
+
+            characterController.center = new Vector3(characterController.center.x, Mathf.Lerp(minimumCenter, maximumCenter, timeToStandUp), characterController.center.z);
+
+            characterController.height = Mathf.Lerp(minimumHeight, maximumHeight, timeToStandUp);
+
+
+            if(transform.position.y >= maximumY - 0.1f)
+            {
+                crouchToStand = false;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (isCrouching)
+            {
+                timeToStandUp = 0;
+
+                minimumY = transform.position.y;
+                maximumY = transform.position.y + 1.001f;
+
+                minimumHeight = characterController.height;
+                maximumHeight = characterController.height + 1f;
+
+                minimumCenter = characterController.center.y;
+                maximumCenter = characterController.center.y - 0.25f;
+
+                isCrouching = false;
+                crouchToStand = true;
+            }
+            else
+            {
+                characterController.height -= 1f;
+                characterController.center += new Vector3(0, 0.25f, 0);
+                isCrouching = true;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && canRun && !isCrouching)
         {
             //playerShooting.currentWeapon.isUsable = false;
 
@@ -87,8 +145,11 @@ public class PlayerMovement : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNo
         else
         {
             //playerShooting.currentWeapon.isUsable = true;
-
-            characterController.Move(movementOnPlane * moveSpeed * Time.deltaTime);
+            if(isCrouching)
+            { characterController.Move(movementOnPlane * moveSpeed * 0.5f * Time.deltaTime); }
+            else
+            { characterController.Move(movementOnPlane * moveSpeed * Time.deltaTime); }
+            
         }
 
         if (characterController.isGrounded) { speedY = 0; }

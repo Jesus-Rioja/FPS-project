@@ -66,7 +66,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.003168, y: 1}
+    m_SensorSize: {x: 2.0245821, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1007,7 +1007,9 @@ MonoBehaviour:
   mouseSensitivityX: 50
   orientateToCamera: 0
   rotateToCamera: 0
+  movementOnPlane: {x: 0, y: 0, z: 0}
   movementAllowed: 1
+  canRun: 0
 --- !u!114 &1259696574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,6 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146f1ec154ebd944c91a559eb99ca04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentWeapon: {fileID: 0}
   WeaponHandler: {fileID: 822953317}
   crosshairControl: {fileID: 0}
 --- !u!136 &919731188
@@ -1197,7 +1200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 188403604, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: targetLayers.m_Bits
-      value: 4294966131
+      value: 4294965619
       objectReference: {fileID: 0}
     - target: {fileID: 1473937934, guid: ba9eafac58fb35048893142cae9e0903, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1553,6 +1556,10 @@ PrefabInstance:
     - target: {fileID: 2720041552926800516, guid: dcf65679d5c7cd24aab0e9db34d50dd7, type: 3}
       propertyPath: projectilesPerShot
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2720041552926800516, guid: dcf65679d5c7cd24aab0e9db34d50dd7, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 4294966779
       objectReference: {fileID: 0}
     - target: {fileID: 4067681432573968104, guid: dcf65679d5c7cd24aab0e9db34d50dd7, type: 3}
       propertyPath: m_RootOrder
