@@ -481,7 +481,7 @@ public class Enemy : MonoBehaviour, TargetWithLifeThatNotifies.IDeathNotifiable,
             GetComponent<NavigateToPosition>().enabled = false;
             GetComponentInChildren<Animator>().enabled = false;
 
-            Instantiate(AmmoDrop, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), Quaternion.identity);
+            Instantiate(AmmoDrop, new Vector3(transform.position.x, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
 
             Invoke("Death", 10f);
         }

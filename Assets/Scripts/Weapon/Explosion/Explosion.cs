@@ -29,7 +29,7 @@ public class Explosion : MonoBehaviour
         {
             // COMPROBAR QUE NO HAY PAREDES ENTRE LA EXPLOSION Y EL OBJETIVO
             TargetBase target = c.GetComponent<TargetBase>();
-            target?.NotifyExplosion();
+            target?.NotifyExplosion(50);
         }
         //AudioSource.PlayClipAtPoint(explosionAudioClip, transform.position);
         Instantiate(prefabVisualExplosion, transform.position, Quaternion.identity);

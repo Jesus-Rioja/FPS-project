@@ -35,7 +35,7 @@ public class WeaponRaycast : WeaponMelee
     {
         audioSource = GetComponent<AudioSource>();
 
-        noiseMaker = GetComponentInChildren<NoiseMaker>();
+        noiseMaker = transform.parent.GetComponentInParent<NoiseMaker>();
     }
 
     private void Start()

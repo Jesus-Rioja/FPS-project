@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabVisualExplosion: {fileID: 671806855254381322, guid: 0f7f1541c2a6b8541935493d09814138, type: 3}
-  radius: 1
+  radius: 8
 --- !u!108 &-3941447474836955220
 Light:
   m_ObjectHideFlags: 0

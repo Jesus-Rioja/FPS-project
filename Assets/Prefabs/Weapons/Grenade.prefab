@@ -81,7 +81,19 @@ MonoBehaviour:
   - {fileID: 5448490850941700961, guid: 52dff29da06d30f488896d52efdac12c, type: 3}
   ExplosionSound:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: WeaponInstantiate, Assembly-CSharp
+        m_MethodName: PlayExplosionSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!136 &4850941154538486301
 CapsuleCollider:
   m_ObjectHideFlags: 0

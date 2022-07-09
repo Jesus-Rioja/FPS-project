@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class OnCollisionDestroy : MonoBehaviour
 {
     [SerializeField] GameObject[] prefabsToInstantiate;
+    public UnityEvent ExplosionSound;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -14,5 +16,7 @@ public class OnCollisionDestroy : MonoBehaviour
         {
             Instantiate(prefab, transform.position, transform.rotation);
         }
+
+        ExplosionSound.Invoke();
     }
 }
